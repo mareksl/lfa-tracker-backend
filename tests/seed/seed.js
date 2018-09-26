@@ -15,7 +15,6 @@ export const seedFunds = [
 
 export const populateFunds = () => {
   funds.length = 0;
-  console.log(funds);
-  funds.push(...seedFunds);
-  console.log(funds);
+  funds.push(...JSON.parse(JSON.stringify(seedFunds)));
+  console.log(funds)
 };
