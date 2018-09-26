@@ -22,7 +22,7 @@
   },
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
-    "test": "jest --verbose",
+    "test": "jest --bail",
     "test-watch": "nodemon --watch src/ --watch tests/ -e js --exec \"yarn test\"",
     "clean": "rimraf ./build && mkdir build",
     "build-server": "babel -d ./build ./src -s",
