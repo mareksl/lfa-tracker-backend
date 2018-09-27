@@ -16,6 +16,9 @@ export default {
   },
   post: (req, res) => {
     const fund = req.body.fund;
+    if (!fund) {
+      return res.status(400).send();
+    }
 
     funds.push(fund);
     return res.status(201).send({ fund });

@@ -3,7 +3,7 @@ import app from '../src/app';
 
 import { seedFunds, populateFunds } from './seed/seed';
 
-beforeEach(populateFunds);
+beforeAll(populateFunds);
 
 describe('/funds', () => {
   describe('GET /funds', () => {
@@ -131,7 +131,7 @@ describe('/funds', () => {
             .get('/funds')
             .expect(200)
             .expect(res => {
-              expect(res.body.funds.length).toBe(1);
+              expect(res.body.funds.length).toBe(2);
               done();
             })
             .catch(err => done(err));
