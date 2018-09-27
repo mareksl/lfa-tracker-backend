@@ -12,15 +12,15 @@ const app = express();
 
 app.use(bodyParser.json());
 
-// /funds
-app.get('/funds', fundsController.get);
+// funds
+app.get('/funds', fundsController.getAll);
 app.get('/funds/:id', fundsController.getByID);
 app.post('/funds', fundsController.post);
 app.patch('/funds/:id', fundsController.patch);
-app.delete('/funds/:id', fundsController.delete);
+app.delete('/funds/:id', fundsController.deleteById);
 
-// /files
-app.get('/files', excelProcessor.exportFile, filesController.get);
+// files
+app.get('/files', excelProcessor.exportFile, filesController.getFile);
 app.post(
   '/files',
   upload.single('book'),

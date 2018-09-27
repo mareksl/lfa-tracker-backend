@@ -53,7 +53,7 @@ describe('/funds', () => {
 
       request(app)
         .post('/funds')
-        .send({ fund })
+        .send(fund)
         .expect(201)
         .expect(res => {
           expect(res.body.fund.id).toBe(fund.id);
@@ -73,13 +73,20 @@ describe('/funds', () => {
             .catch(err => done(err));
         });
     });
+
+    it('should return 400 if no data passed', done => {
+      request(app)
+        .post('/funds')
+        .send()
+        .expect(400)
+        .end(done);
+    });
   });
 
   describe('PATCH /funds/:id', () => {
-    const id = seedFunds[0].id;
-    const name = 'ModifiedFund';
-
     it('should modify the fund by id', done => {
+      const id = seedFunds[0].id;
+      const name = 'ModifiedFund';
       request(app)
         .patch(`/funds/${id}`)
         .send({ name })
@@ -104,11 +111,22 @@ describe('/funds', () => {
 
     it('should return 404 if fund not found', done => {
       const id = 'asd';
+      const name = 'ModifiedFund';
 
       request(app)
         .patch(`/funds/${id}`)
         .send({ name })
         .expect(404)
+        .end(done);
+    });
+
+    it('should return 400 if data invalid', done => {
+      const id = seedFunds[0].id;
+
+      request(app)
+        .patch(`/funds/${id}`)
+        .send()
+        .expect(400)
         .end(done);
     });
   });
