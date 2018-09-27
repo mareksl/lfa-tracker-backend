@@ -3,9 +3,11 @@ import express from 'express';
 import multer from 'multer';
 import filesController from './controllers/files.controller';
 import fundsController from './controllers/funds.controller';
+import excelProcessor from './middleware/excelProcessor';
 
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
+
 const app = express();
 
 app.use(bodyParser.json());
@@ -18,7 +20,12 @@ app.patch('/funds/:id', fundsController.patch);
 app.delete('/funds/:id', fundsController.delete);
 
 // /files
-app.get('/files', filesController.get);
-app.post('/files', upload.single('book'), filesController.post);
+app.get('/files', excelProcessor.exportFile, filesController.get);
+app.post(
+  '/files',
+  upload.single('book'),
+  excelProcessor.importFile,
+  filesController.post
+);
 
 export default app;
