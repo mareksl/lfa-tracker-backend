@@ -1,7 +1,6 @@
 import xlsx from 'xlsx';
 import { funds } from '../data/data';
 
-
 export default {
   exportFile: (req, res, next) => {
     const wb = xlsx.utils.book_new();

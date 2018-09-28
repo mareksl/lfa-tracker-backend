@@ -1,13 +1,13 @@
-import { funds } from '../data/data';
-import { Fund } from '../models/Fund.model';
+import FundsActions from '../actions/funds.actions';
 
 const getAll = (_req, res) => {
+  const funds = FundsActions.getAll();
   return res.send({ funds });
 };
 
 const getByID = (req, res) => {
   const id = req.params.id;
-  const fund = funds.find(result => result.id === id);
+  const fund = FundsActions.findById(id);
 
   if (!fund) {
     return res.status(404).send();
@@ -20,39 +20,34 @@ const post = (req, res) => {
   if (!data.id || !data.name) {
     return res.status(400).send();
   }
-
-  const fund = new Fund(data.id, data.name);
-
-  funds.push(fund);
+  const fund = FundsActions.add(data);
   return res.status(201).send({ fund });
 };
 
 const patch = (req, res) => {
   const id = req.params.id;
   const name = req.body.name;
-  const fund = funds.find(result => result.id === id);
+  const fundToModify = FundsActions.findById(id);
 
-  if (!fund) {
+  if (!fundToModify) {
     return res.status(404).send();
   }
-  
+
   if (!name) {
     return res.status(400).send();
   }
 
-  fund.name = name;
+  const fund = FundsActions.modify(fundToModify, { name });
 
   return res.send({ fund });
 };
 
 const deleteById = (req, res) => {
   const id = req.params.id;
-  const pos = funds.findIndex(result => result.id === id);
-  if (pos === -1) {
+  const fund = FundsActions.removeById(id);
+  if (!fund) {
     return res.status(404).send();
   }
-  const fund = funds.splice(pos, 1)[0];
-
   return res.send({ fund });
 };
 

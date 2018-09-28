@@ -1,4 +1,5 @@
 import { funds } from '../../src/data/data';
+import FundsActions from '../../src/actions/funds.actions';
 
 export const seedFunds = [
   {
@@ -13,5 +14,6 @@ export const seedFunds = [
 
 export const populateFunds = () => {
   funds.length = 0;
-  funds.push(...JSON.parse(JSON.stringify(seedFunds)));
+  const seedCopy = JSON.parse(JSON.stringify(seedFunds));
+  seedCopy.forEach(fund => FundsActions.add(fund));
 };
