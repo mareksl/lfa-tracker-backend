@@ -6,7 +6,7 @@ const getAll = () => {
 };
 
 const add = data => {
-  const fund = new Fund(data.id, data.name);
+  const fund = new Fund(`${data.id}`, `${data.name}`);
   funds.push(fund);
   return fund;
 };

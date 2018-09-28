@@ -24,7 +24,7 @@
   },
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
-    "test": "jest --bail",
+    "test": "jest --bail --verbose",
     "test-watch": "nodemon --watch src/ --watch tests/ -e js --exec \"yarn test\"",
     "coverage": "jest --collectCoverageFrom=src/**.js --collectCoverageFrom=!src/index.js --coverage",
     "clean": "rimraf ./build && mkdir build",
