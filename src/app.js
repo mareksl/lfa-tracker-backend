@@ -4,12 +4,38 @@ import multer from 'multer';
 import filesController from './controllers/files.controller';
 import fundsController from './controllers/funds.controller';
 import excelProcessor from './middleware/excelProcessor';
+import morgan from 'morgan';
+import fs from 'fs';
+import path from 'path';
 
 const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage
+});
 
 const app = express();
 
+// CORS
+app.use(function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, x-auth'
+  );
+  next();
+});
+
+// logging
+const accessLogStream = fs.createWriteStream(path.join(process.cwd(), 'logs', 'access.log'), {
+  flags: 'a'
+});
+
+app.use(morgan('combined', {
+  stream: accessLogStream
+}));
+
+// bodyParser json
 app.use(bodyParser.json());
 
 // funds
