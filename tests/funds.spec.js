@@ -21,14 +21,14 @@ describe('/funds', () => {
 
   describe('GET /funds/:id', () => {
     it('should return fund by id', done => {
-      const id = seedFunds[0].id;
+      const id = seedFunds[0].lipperId;
 
       request(app)
         .get(`/funds/${id}`)
         .expect(200)
         .expect(res => {
-          expect(res.body.fund.id).toBe(id);
-          expect(res.body.fund.name).toBe(seedFunds[0].name);
+          expect(res.body.fund.lipperId).toBe(id);
+          expect(res.body.fund.fundName).toBe(seedFunds[0].fundName);
           done();
         })
         .catch(err => done(err));
@@ -47,8 +47,28 @@ describe('/funds', () => {
   describe('POST /funds', () => {
     it('should create new fund', done => {
       const fund = {
-        id: '3',
-        name: 'Fund Three'
+        lipperId: 65000259,
+        awardUniverse: 'Austria',
+        awardPeriod: [3, 5],
+        highestRank: [1],
+        fundName: 'PRO INVEST PLUS T',
+        domicile: 'Austria',
+        advisorCompanyCode: 1281775,
+        advisorCompanyName: 'Kremser Bank & Sparkassen AG',
+        promoterCompanyCode: 1278133,
+        promoterCompanyName: 'Kremser Bank & Sparkassen',
+        fundOwner: 'Marek Sladczyk',
+        department: 'Gdynia - AGS',
+        classificationScheme: 'Lipper Global',
+        isinCode: 'AT0000612718',
+        assetTypeName: 'Absolute Return EUR High',
+        classificationName: 'Mixed Assets',
+        awardVerifiedNoteDate: '12-Jan-18',
+        awardVerifiedNoteText: '3,5,10y TR to 29.12.2017',
+        extendedLGCVerified: true,
+        performanceVerified: true,
+        profileDataVerified: true,
+        timeseriesDataVerified: true
       };
 
       request(app)
@@ -56,8 +76,8 @@ describe('/funds', () => {
         .send(fund)
         .expect(201)
         .expect(res => {
-          expect(res.body.fund.id).toBe(fund.id);
-          expect(res.body.fund.name).toBe(fund.name);
+          expect(res.body.fund.lipperId).toBe(fund.lipperId);
+          expect(res.body.fund.fundName).toBe(fund.fundName);
           done();
         })
         .end((err, res) => {
@@ -85,14 +105,14 @@ describe('/funds', () => {
 
   describe('PATCH /funds/:id', () => {
     it('should modify the fund by id', done => {
-      const id = seedFunds[0].id;
-      const name = 'ModifiedFund';
+      const id = seedFunds[0].lipperId;
+      const fundName = 'ModifiedFund';
       request(app)
         .patch(`/funds/${id}`)
-        .send({ name })
+        .send({ fundName })
         .expect(200)
         .expect(res => {
-          expect(res.body.fund.name).toBe(name);
+          expect(res.body.fund.fundName).toBe(fundName);
           done();
         })
         .end((err, res) => {
@@ -102,7 +122,7 @@ describe('/funds', () => {
             .get('/funds')
             .expect(200)
             .expect(res => {
-              expect(res.body.funds[0].name).toBe(name);
+              expect(res.body.funds[0].fundName).toBe(fundName);
               done();
             })
             .catch(err => done(err));
@@ -111,17 +131,17 @@ describe('/funds', () => {
 
     it('should return 404 if fund not found', done => {
       const id = 'asd';
-      const name = 'ModifiedFund';
+      const fundName = 'ModifiedFund';
 
       request(app)
         .patch(`/funds/${id}`)
-        .send({ name })
+        .send({ fundName })
         .expect(404)
         .end(done);
     });
 
     it('should return 400 if data invalid', done => {
-      const id = seedFunds[0].id;
+      const id = seedFunds[0].lipperId;
 
       request(app)
         .patch(`/funds/${id}`)
@@ -133,13 +153,13 @@ describe('/funds', () => {
 
   describe('DELETE /funds/:id', () => {
     it('should delete fund by id', done => {
-      const id = seedFunds[1].id;
+      const id = seedFunds[1].lipperId;
 
       request(app)
         .delete(`/funds/${id}`)
         .expect(200)
         .expect(res => {
-          expect(res.body.fund.id).toBe(id);
+          expect(res.body.fund.lipperId).toBe(id);
           done();
         })
         .end((err, res) => {

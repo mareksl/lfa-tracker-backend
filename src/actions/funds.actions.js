@@ -6,13 +6,13 @@ const getAll = () => {
 };
 
 const add = data => {
-  const fund = new Fund(`${data.id}`, `${data.name}`);
+  const fund = new Fund(data);
   funds.push(fund);
   return fund;
 };
 
 const findById = id => {
-  return funds.find(result => result.id === id);
+  return funds.find(result => result.lipperId === id);
 };
 
 const modify = (fund, data) => {
@@ -21,7 +21,7 @@ const modify = (fund, data) => {
 };
 
 const removeById = id => {
-  const pos = funds.findIndex(result => result.id === id);
+  const pos = funds.findIndex(result => result.lipperId === id);
   if (pos === -1) {
     return null;
   }
