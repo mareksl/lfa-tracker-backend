@@ -1,14 +1,14 @@
 Arguments: 
-  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js install
+  C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js test
 
 PATH: 
-  C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Ruby23\bin;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Calibre2\;C:\Program Files (x86)\Skype\Phone\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\xampp\php;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\Program Files\dotnet\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files (x86)\Yarn\bin;C:\Program Files\Git\cmd;C:\Program Files (x86)\Toshiba\Bluetooth Toshiba Stack\sys\;C:\Program Files (x86)\Toshiba\Bluetooth Toshiba Stack\sys\x64\;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_181\bin;C:\Users\mareksl\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\mareksl\AppData\Local\Programs\Python\Python36-32\;C:\Program Files (x86)\Common Files\Microsoft Shared\Windows Live;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Users\mareksl\AppData\Local\atom\bin;C:\Program Files\nodejs;C:\Program Files\Microsoft VS Code\bin;C:\Users\mareksl\AppData\Local\Yarn\bin;C:\ChromeDriver;C:\Program Files\Heroku\bin;C:\Users\mareksl\AppData\Roaming\npm;C:\MinGW\bin
+  C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend\node_modules\.bin;C:\Users\U6046944\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend\node_modules\.bin;C:\Users\U6046944\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Program Files (x86)\ImageMagick-6.9.9-Q16;;;;;;C:\app\U6046944\product\12.2.0\dbhome_1\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\UCRT\;C:\Program Files\Intel\UCRT\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\Symantec\VIP Access Client\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_181\bin;;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\;C:\Users\U6046944\AppData\Local\Programs\Python\Launcher\;C:\Program Files\Microsoft VS Code\bin;C:\chromedriver;C:\Users\U6046944\AppData\Local\Yarn\bin;C:\Users\U6046944\AppData\Local\Tesseract-OCR;C:\Program Files\Heroku\bin;C:\Users\U6046944\AppData\Roaming\npm;C:\Users\U6046944\AppData\Local\Continuum\anaconda3\Scripts;C:\scripts;C:\MinGW\bin;C:\Program Files\MongoDB\Server\3.6\bin
 
 Yarn version: 
-  1.3.2
+  1.5.1
 
 Node version: 
-  10.6.0
+  10.3.0
 
 Platform: 
   win32 x64
@@ -26,6 +26,7 @@ npm manifest:
       "express": "^4.16.3",
       "mongodb": "^3.1.6",
       "mongoose": "^5.2.17",
+      "morgan": "^1.9.1",
       "multer": "^1.4.0",
       "validator": "^10.8.0",
       "xlsx": "^0.14.0"
@@ -810,6 +811,12 @@ Lockfile:
       isobject "^3.0.1"
       mixin-deep "^1.2.0"
       pascalcase "^0.1.1"
+  
+  basic-auth@~2.0.0:
+    version "2.0.1"
+    resolved "https://registry.yarnpkg.com/basic-auth/-/basic-auth-2.0.1.tgz#b998279bf47ce38344b4f3cf916d4679bbf51e3a"
+    dependencies:
+      safe-buffer "5.1.2"
   
   bcrypt-pbkdf@^1.0.0:
     version "1.0.2"
@@ -3049,6 +3056,16 @@ Lockfile:
       safe-buffer "5.1.2"
       sliced "1.0.1"
   
+  morgan@^1.9.1:
+    version "1.9.1"
+    resolved "https://registry.yarnpkg.com/morgan/-/morgan-1.9.1.tgz#0a8d16734a1d9afbc824b99df87e738e58e2da59"
+    dependencies:
+      basic-auth "~2.0.0"
+      debug "2.6.9"
+      depd "~1.1.2"
+      on-finished "~2.3.0"
+      on-headers "~1.0.1"
+  
   mpath@0.5.1:
     version "0.5.1"
     resolved "https://registry.yarnpkg.com/mpath/-/mpath-0.5.1.tgz#17131501f1ff9e6e4fbc8ffa875aa7065b5775ab"
@@ -3276,6 +3293,10 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/on-finished/-/on-finished-2.3.0.tgz#20f1336481b083cd75337992a16971aa2d906947"
     dependencies:
       ee-first "1.1.1"
+  
+  on-headers@~1.0.1:
+    version "1.0.1"
+    resolved "https://registry.yarnpkg.com/on-headers/-/on-headers-1.0.1.tgz#928f5d0f470d49342651ea6794b0857c100693f7"
   
   once@^1.3.0, once@^1.4.0:
     version "1.4.0"
@@ -4635,14 +4656,16 @@ Lockfile:
       yargs-parser "^9.0.2"
 
 Trace: 
-  Error: https://registry.yarnpkg.com/lodash/-/lodash-4.17.11.tgz: ESOCKETTIMEDOUT
-      at ClientRequest.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:123716:19)
-      at Object.onceWrapper (events.js:273:13)
-      at ClientRequest.emit (events.js:182:13)
-      at TLSSocket.emitTimeout (_http_client.js:706:34)
-      at Object.onceWrapper (events.js:273:13)
-      at TLSSocket.emit (events.js:182:13)
-      at TLSSocket.Socket._onTimeout (net.js:447:8)
-      at ontimeout (timers.js:427:11)
-      at tryOnTimeout (timers.js:289:5)
-      at listOnTimeout (timers.js:252:5)
+  Error: Command failed.
+  Exit code: 1
+  Command: C:\WINDOWS\system32\cmd.exe
+  Arguments: /d /s /c jest --bail --verbose
+  Directory: C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend
+  Output:
+  
+      at ProcessTermError.MessageError (C:\Program Files (x86)\Yarn\lib\cli.js:186:110)
+      at new ProcessTermError (C:\Program Files (x86)\Yarn\lib\cli.js:226:113)
+      at ChildProcess.<anonymous> (C:\Program Files (x86)\Yarn\lib\cli.js:30281:17)
+      at ChildProcess.emit (events.js:182:13)
+      at maybeClose (internal/child_process.js:961:16)
+      at Process.ChildProcess._handle.onexit (internal/child_process.js:248:5)

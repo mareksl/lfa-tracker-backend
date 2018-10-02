@@ -53,8 +53,8 @@ export const seedFunds = [
     classificationName: 'Alternatives',
     awardVerifiedNoteDate: '3-Jan-18',
     awardVerifiedNoteText: '1,3,5,10 y TR to 31/12/2017 Verified',
-    extendedLGCVerified: true,
-    performanceVerified: true,
+    extendedLGCVerified: false,
+    performanceVerified: false,
     profileDataVerified: true,
     timeseriesDataVerified: true
   }
