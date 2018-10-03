@@ -6,17 +6,22 @@ const checkFundStatus = fund =>
   fund.profileDataVerified &&
   fund.timeseriesDataVerified;
 
-const calculatePercentageDone = funds => {
-  const amountDone = funds.reduce(
+const calculateAmountDone = funds => {
+  return funds.reduce(
     (total, fund) => (checkFundStatus(fund) ? ++total : total),
     0
   );
+};
+
+const calculatePercentageDone = funds => {
+  const amountDone = calculateAmountDone(funds);
   return amountDone / funds.length;
 };
 
 const calculateStatistics = funds => {
   return {
-    totalFundCount: funds.length,
+    totalCount: funds.length,
+    doneCount: calculateAmountDone(funds),
     percentageDone: calculatePercentageDone(funds)
   };
 };

@@ -14,7 +14,7 @@ describe('/stats', () => {
         .expect(200)
         .expect(res => {
           const stats = res.body.statistics;
-          expect(stats.totalFundCount).toBe(seedFunds.length);
+          expect(stats.totalCount).toBe(seedFunds.length);
           expect(stats.percentageDone).toBe(0.5);
           done();
         })
