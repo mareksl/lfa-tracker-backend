@@ -7,7 +7,8 @@ const exportFile = (req, res, next) => {
   const ws = xlsx.utils.json_to_sheet(funds);
   xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  const file = xlsx.write(wb, { type: 'buffer' });
+  const file = xlsx.write(wb, { type: 'buffer', compression: true });
+
   res.locals.file = file;
 
   next();

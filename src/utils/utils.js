@@ -9,7 +9,7 @@ export const filenameDateString = date => {
   const hours = date.getHours();
   const minutes = date.getMinutes();
 
-  return `${padNumber(day)}.${padNumber(month)}.${padNumber(year)} _${padNumber(
+  return `${padNumber(day)}.${padNumber(month)}.${padNumber(year)}_${padNumber(
     hours
   )}.${padNumber(minutes)}`;
 };
