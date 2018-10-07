@@ -4,10 +4,13 @@ import fs from 'fs';
 import morgan from 'morgan';
 import multer from 'multer';
 import path from 'path';
+import './config/config';
 import filesController from './controllers/files.controller';
 import fundsController from './controllers/funds.controller';
 import statisticsController from './controllers/statistics.controller';
+import { connect } from './db/mongoose';
 import excelProcessor from './middleware/excelProcessor';
+import chalk from 'chalk';
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -15,6 +18,14 @@ const upload = multer({
 });
 
 const app = express();
+
+// database
+
+const db = connect();
+db.on(
+  'error',
+  console.error.bind(console, chalk.red('MongoDB connection error:'))
+);
 
 // CORS
 app.use(function(req, res, next) {
@@ -62,5 +73,10 @@ app.post(
 
 // statistics
 app.get('/stats', statisticsController.getAll);
+
+// catch all
+app.all('*', (req, res) => {
+  res.status(404).send('404 Not Found');
+});
 
 export default app;
