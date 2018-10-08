@@ -1,8 +1,11 @@
 import StatisticsActions from '../actions/statistics.actions';
 
 const getAll = (req, res) => {
-  const statistics = StatisticsActions.getStatistics();
-  res.send({ statistics });
+  StatisticsActions.getStatistics()
+    .then(statistics => {
+      return res.send({ statistics });
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 export default {

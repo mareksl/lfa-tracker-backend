@@ -22,10 +22,6 @@ const app = express();
 // database
 
 const db = connect();
-db.on(
-  'error',
-  console.error.bind(console, chalk.red('MongoDB connection error:'))
-);
 
 // CORS
 app.use(function(req, res, next) {

@@ -1,54 +1,60 @@
 import FundsActions from '../actions/funds.actions';
 
 const getAll = (_req, res) => {
-  const funds = FundsActions.getAll();
-  return res.send({ funds });
+  FundsActions.getAll()
+    .then(funds => res.send({ funds }))
+    .catch(err => res.status(500).send(err));
 };
 
 const getByID = (req, res) => {
   const id = +req.params.id;
-  const fund = FundsActions.findById(id);
-
-  if (!fund) {
-    return res.status(404).send();
-  }
-  return res.send({ fund });
+  FundsActions.findById(id)
+    .then(fund => {
+      if (!fund) {
+        return res.status(404).send();
+      }
+      return res.send({ fund });
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 const post = (req, res) => {
   const data = req.body;
+
   if (Object.keys(data).length === 0) {
     return res.status(400).send();
   }
-  const fund = FundsActions.add(data);
-  return res.status(201).send({ fund });
+
+  FundsActions.add(data)
+    .then(fund => res.status(201).send({ fund }))
+    .catch(err => res.status(400).send(err));
 };
 
 const patch = (req, res) => {
   const id = +req.params.id;
   const data = req.body;
-  const fundToModify = FundsActions.findById(id);
 
-  if (!fundToModify) {
-    return res.status(404).send();
-  }
+  FundsActions.modify(id, data)
+    .then(fund => {
+      if (!fund) {
+        return res.status(404).send();
+      }
 
-  if (Object.keys(data).length === 0) {
-    return res.status(400).send();
-  }
-
-  const fund = FundsActions.modify(fundToModify, data);
-
-  return res.send({ fund });
+      return res.send({ fund });
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 const deleteById = (req, res) => {
   const id = +req.params.id;
-  const fund = FundsActions.removeById(id);
-  if (!fund) {
-    return res.status(404).send();
-  }
-  return res.send({ fund });
+  FundsActions.removeById(id)
+    .then(fund => {
+      if (!fund) {
+        return res.status(404).send();
+      }
+      return res.send({ fund });
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 export default {

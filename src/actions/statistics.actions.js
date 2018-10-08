@@ -62,9 +62,9 @@ const calculateStatistics = funds => {
 };
 
 const getStatistics = () => {
-  const funds = FundsActions.getAll();
-  const statistics = calculateStatistics(funds);
-  return statistics;
+  return FundsActions.getAll().then(funds => {
+    return calculateStatistics(funds);
+  });
 };
 
 export default {

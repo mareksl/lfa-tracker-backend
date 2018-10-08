@@ -1,34 +1,98 @@
-export class Fund {
-  constructor(data) {
-    this.lipperId = data.lipperId;
-    this.awardUniverse = data.awardUniverse;
-    this.awardPeriod = data.awardPeriod;
-    this.highestRank = data.highestRank;
-    this.fundName = data.fundName;
-    this.domicile = data.domicile;
-    this.advisorCompanyCode = data.advisorCompanyCode;
-    this.advisorCompanyName = data.advisorCompanyName;
-    this.promoterCompanyCode = data.promoterCompanyCode;
-    this.promoterCompanyName = data.promoterCompanyName;
-    this.fundOwner = data.fundOwner;
-    this.department = data.department;
-    this.classificationScheme = data.classificationScheme;
-    this.isinCode = data.isinCode;
-    this.assetTypeName = data.assetTypeName;
-    this.classificationName = data.classificationName;
-    this.awardVerifiedNoteDate = data.awardVerifiedNoteDate;
-    this.awardVerifiedNoteText = data.awardVerifiedNoteText;
-    this.extendedLGCVerified = data.extendedLGCVerified;
-    this.performanceVerified = data.performanceVerified;
-    this.profileDataVerified = data.profileDataVerified;
-    this.timeseriesDataVerified = data.timeseriesDataVerified;
+import mongoose from 'mongoose';
+import uniqueValidator from 'mongoose-unique-validator';
+import upsertMany from '@meanie/mongoose-upsert-many';
+
+const toArray = v => (typeof v === 'string' ? v.split(',') : v);
+
+const FundSchema = new mongoose.Schema({
+  lipperId: {
+    type: Number,
+    required: true,
+    unique: true
+  },
+  awardUniverse: {
+    type: [String],
+    required: true,
+    set: toArray
+  },
+  awardPeriod: {
+    type: [Number],
+    required: true,
+    set: toArray
+  },
+  highestRank: {
+    type: Number,
+    required: true
+  },
+  fundName: {
+    type: String
+  },
+  domicile: {
+    type: String
+  },
+  advisorCompanyCode: {
+    type: Number
+  },
+  advisorCompanyName: {
+    type: String
+  },
+  promoterCompanyCode: {
+    type: Number
+  },
+  promoterCompanyName: {
+    type: String
+  },
+  fundOwner: {
+    type: String,
+    required: true,
+    default: 'Not Provided'
+  },
+  department: {
+    type: String,
+    required: true,
+    default: 'Not Provided'
+  },
+  classificationScheme: {
+    type: String
+  },
+  isinCode: {
+    type: String
+  },
+  assetTypeName: {
+    type: String
+  },
+  classificationName: {
+    type: String
+  },
+  awardVerifiedNoteDate: {
+    type: Date
+  },
+  awardVerifiedNoteText: {
+    type: String
+  },
+  extendedLGCVerified: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  performanceVerified: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  profileDataVerified: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  timeseriesDataVerified: {
+    type: Boolean,
+    required: true,
+    default: false
   }
-  
-  modify(data) {
-    for (const prop in data) {
-      if (data.hasOwnProperty(prop)) {
-        this[prop] = data[prop];
-      }
-    }
-  }
-}
+});
+
+FundSchema.plugin(uniqueValidator);
+FundSchema.plugin(upsertMany);
+
+export const Fund = mongoose.model('Fund', FundSchema);

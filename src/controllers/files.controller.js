@@ -15,10 +15,11 @@ const getFile = (req, res) => {
 const post = (req, res) => {
   const data = res.locals.data;
 
-  data.forEach(fund => FundsActions.add(fund));
-  const funds = FundsActions.getAll();
-
-  return res.status(201).send({ funds });
+  FundsActions.addMany(data)
+    .then(funds => {
+      return res.status(201).send({ funds });
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 export default {

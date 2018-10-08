@@ -1,35 +1,39 @@
-import { funds } from '../data/data';
 import { Fund } from '../models/Fund.model';
 
 const getAll = () => {
-  return funds.slice();
+  return Fund.find({});
 };
 
 const add = data => {
   const fund = new Fund(data);
-  funds.push(fund);
-  return fund;
+  return fund.save();
 };
 
 const findById = id => {
-  return funds.find(result => result.lipperId === id);
+  return Fund.findOne({ lipperId: id });
 };
 
-const modify = (fund, data) => {
-  fund.modify(data);
-  return fund;
+const modify = (id, data) => {
+  return Fund.findOneAndUpdate(
+    { lipperId: id },
+    {
+      $set: data
+    },
+    { runValidators: true, new: true }
+  );
 };
 
 const removeById = id => {
-  const pos = funds.findIndex(result => result.lipperId === id);
-  if (pos === -1) {
-    return null;
-  }
-  return funds.splice(pos, 1)[0];
+  return Fund.findOneAndDelete({ lipperId: id });
+};
+
+const addMany = funds => {
+  return Fund.upsertMany(funds, ['lipperId']);
 };
 
 export default {
   add,
+  addMany,
   findById,
   modify,
   removeById,
