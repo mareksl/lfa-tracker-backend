@@ -10,6 +10,7 @@ const getAllToExport = () => {
     .exec()
     .then(funds =>
       funds.map(fund => {
+        delete fund._id;
         for (let key in fund) {
           if (fund.hasOwnProperty(key)) {
             if (fund[key] instanceof Array) {
