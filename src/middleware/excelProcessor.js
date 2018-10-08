@@ -2,7 +2,7 @@ import xlsx from 'xlsx';
 import FundsActions from '../actions/funds.actions';
 
 const exportFile = (req, res, next) => {
-  return FundsActions.getAllJSON().then(funds => {
+  return FundsActions.getAllToExport().then(funds => {
     const wb = xlsx.utils.book_new();
     const ws = xlsx.utils.json_to_sheet(funds);
     xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');

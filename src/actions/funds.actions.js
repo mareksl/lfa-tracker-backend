@@ -3,11 +3,23 @@ import { Fund } from '../models/Fund.model';
 const getAll = () => {
   return Fund.find({});
 };
-const getAllJSON = () => {
+
+const getAllToExport = () => {
   return Fund.find({})
     .lean()
     .exec()
-    .then(funds => funds.toJSON());
+    .then(funds =>
+      funds.map(fund => {
+        for (let key in fund) {
+          if (fund.hasOwnProperty(key)) {
+            if (fund[key] instanceof Array) {
+              fund[key] = fund[key].join(',');
+            }
+          }
+        }
+        return fund;
+      })
+    );
 };
 
 const add = data => {
@@ -44,5 +56,5 @@ export default {
   modify,
   removeById,
   getAll,
-  getAllJSON
+  getAllToExport
 };
