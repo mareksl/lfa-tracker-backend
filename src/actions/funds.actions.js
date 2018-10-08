@@ -3,6 +3,12 @@ import { Fund } from '../models/Fund.model';
 const getAll = () => {
   return Fund.find({});
 };
+const getAllJSON = () => {
+  return Fund.find({})
+    .lean()
+    .exec()
+    .then(funds => funds.toJSON());
+};
 
 const add = data => {
   const fund = new Fund(data);
@@ -37,5 +43,6 @@ export default {
   findById,
   modify,
   removeById,
-  getAll
+  getAll,
+  getAllJSON
 };

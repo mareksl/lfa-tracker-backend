@@ -2,16 +2,17 @@ import xlsx from 'xlsx';
 import FundsActions from '../actions/funds.actions';
 
 const exportFile = (req, res, next) => {
-  const funds = FundsActions.getAll();
-  const wb = xlsx.utils.book_new();
-  const ws = xlsx.utils.json_to_sheet(funds);
-  xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
+  return FundsActions.getAllJSON().then(funds => {
+    const wb = xlsx.utils.book_new();
+    const ws = xlsx.utils.json_to_sheet(funds);
+    xlsx.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-  const file = xlsx.write(wb, { type: 'buffer', compression: true });
+    const file = xlsx.write(wb, { type: 'buffer', compression: true });
 
-  res.locals.file = file;
+    res.locals.file = file;
 
-  next();
+    next();
+  });
 };
 
 const importFile = (req, res, next) => {

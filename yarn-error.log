@@ -2,7 +2,7 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js test
 
 PATH: 
-  C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend\node_modules\.bin;C:\Users\U6046944\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend\node_modules\.bin;C:\Users\U6046944\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Program Files (x86)\ImageMagick-6.9.9-Q16;;;;;;C:\app\U6046944\product\12.2.0\dbhome_1\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\UCRT\;C:\Program Files\Intel\UCRT\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\Symantec\VIP Access Client\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_181\bin;;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\;C:\Users\U6046944\AppData\Local\Programs\Python\Launcher\;C:\Program Files\Microsoft VS Code\bin;C:\chromedriver;C:\Users\U6046944\AppData\Local\Yarn\bin;C:\Users\U6046944\AppData\Local\Tesseract-OCR;C:\Program Files\Heroku\bin;C:\Users\U6046944\AppData\Roaming\npm;C:\Users\U6046944\AppData\Local\Continuum\anaconda3\Scripts;C:\scripts;C:\MinGW\bin;C:\Program Files\MongoDB\Server\3.6\bin
+  C:\Program Files (x86)\ImageMagick-6.9.9-Q16;;;;;;C:\app\U6046944\product\12.2.0\dbhome_1\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\UCRT\;C:\Program Files\Intel\UCRT\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\Symantec\VIP Access Client\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_181\bin;;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\;C:\Users\U6046944\AppData\Local\Programs\Python\Launcher\;C:\Program Files\Microsoft VS Code\bin;C:\chromedriver;C:\Users\U6046944\AppData\Local\Yarn\bin;C:\Users\U6046944\AppData\Local\Tesseract-OCR;C:\Program Files\Heroku\bin;C:\Users\U6046944\AppData\Roaming\npm;C:\Users\U6046944\AppData\Local\Continuum\anaconda3\Scripts;C:\scripts;C:\MinGW\bin;C:\Program Files\MongoDB\Server\3.6\bin
 
 Yarn version: 
   1.5.1
@@ -22,10 +22,13 @@ npm manifest:
     "author": "mareksl <marekslad@hotmail.com>",
     "license": "MIT",
     "dependencies": {
+      "@meanie/mongoose-upsert-many": "^1.5.1",
       "body-parser": "^1.18.3",
+      "chalk": "^2.4.1",
       "express": "^4.16.3",
       "mongodb": "^3.1.6",
-      "mongoose": "^5.2.17",
+      "mongoose": "^5.3.1",
+      "mongoose-unique-validator": "^2.0.2",
       "morgan": "^1.9.1",
       "multer": "^1.4.0",
       "validator": "^10.8.0",
@@ -72,6 +75,10 @@ Lockfile:
       chalk "^2.0.0"
       esutils "^2.0.2"
       js-tokens "^4.0.0"
+  
+  "@meanie/mongoose-upsert-many@^1.5.1":
+    version "1.5.1"
+    resolved "https://registry.yarnpkg.com/@meanie/mongoose-upsert-many/-/mongoose-upsert-many-1.5.1.tgz#0a4e9c4c159dd597bd4bba1fbfe51ba83638af54"
   
   abab@^2.0.0:
     version "2.0.0"
@@ -1013,7 +1020,7 @@ Lockfile:
       strip-ansi "^3.0.0"
       supports-color "^2.0.0"
   
-  chalk@^2.0.0, chalk@^2.0.1:
+  chalk@^2.0.0, chalk@^2.0.1, chalk@^2.4.1:
     version "2.4.1"
     resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.4.1.tgz#18c49ab16a037b6eb0152cc83e3471338215b66e"
     dependencies:
@@ -2748,9 +2755,9 @@ Lockfile:
       json-schema "0.2.3"
       verror "1.10.0"
   
-  kareem@2.2.1:
-    version "2.2.1"
-    resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.2.1.tgz#9950809415aa3cde62ab43b4f7b919d99816e015"
+  kareem@2.3.0:
+    version "2.3.0"
+    resolved "https://registry.yarnpkg.com/kareem/-/kareem-2.3.0.tgz#ef33c42e9024dce511eeaf440cd684f3af1fc769"
   
   kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
     version "3.2.2"
@@ -2824,7 +2831,11 @@ Lockfile:
     version "4.0.8"
     resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   
-  lodash.get@4.4.2:
+  lodash.foreach@^4.1.0:
+    version "4.5.0"
+    resolved "https://registry.yarnpkg.com/lodash.foreach/-/lodash.foreach-4.5.0.tgz#1a6a35eace401280c7f06dddec35165ab27e3e53"
+  
+  lodash.get@4.4.2, lodash.get@^4.0.2:
     version "4.4.2"
     resolved "https://registry.yarnpkg.com/lodash.get/-/lodash.get-4.4.2.tgz#2d177f652fa31e939b4438d5341499dfa3825e99"
   
@@ -3038,13 +3049,20 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   
-  mongoose@^5.2.17:
-    version "5.2.17"
-    resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.2.17.tgz#8baeb60a675d00da03633d679a72457dbb5b2285"
+  mongoose-unique-validator@^2.0.2:
+    version "2.0.2"
+    resolved "https://registry.yarnpkg.com/mongoose-unique-validator/-/mongoose-unique-validator-2.0.2.tgz#a980e68638157cd8fcea86d754eeb2cf67e6bb76"
+    dependencies:
+      lodash.foreach "^4.1.0"
+      lodash.get "^4.0.2"
+  
+  mongoose@^5.3.1:
+    version "5.3.1"
+    resolved "https://registry.yarnpkg.com/mongoose/-/mongoose-5.3.1.tgz#52d5bfb67788a2194e5f7a2a5c0d597e4b86fd7a"
     dependencies:
       async "2.6.1"
       bson "~1.0.5"
-      kareem "2.2.1"
+      kareem "2.3.0"
       lodash.get "4.4.2"
       mongodb "3.1.6"
       mongodb-core "3.1.5"
