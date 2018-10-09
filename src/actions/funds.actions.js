@@ -42,6 +42,10 @@ const modify = (id, data) => {
   );
 };
 
+const removeAll = () => {
+  return Fund.deleteMany({});
+};
+
 const removeById = id => {
   return Fund.findOneAndDelete({ lipperId: id });
 };
@@ -55,6 +59,7 @@ export default {
   addMany,
   findById,
   modify,
+  removeAll,
   removeById,
   getAll,
   getAllToExport

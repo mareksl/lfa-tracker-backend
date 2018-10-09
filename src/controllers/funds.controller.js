@@ -45,6 +45,12 @@ const patch = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const deleteAll = (req, res) => {
+  FundsActions.removeAll()
+    .then(response => res.send(response))
+    .catch(err => res.status(500).send(err));
+};
+
 const deleteById = (req, res) => {
   const id = +req.params.id;
   FundsActions.removeById(id)
@@ -62,5 +68,6 @@ export default {
   getByID,
   post,
   patch,
+  deleteAll,
   deleteById
 };

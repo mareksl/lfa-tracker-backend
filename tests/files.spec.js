@@ -19,7 +19,7 @@ describe('/files', () => {
     it('should import xlsx file and add funds', done => {
       request(app)
         .post('/files')
-        .attach('book', './tests/seed/test.xlsx')
+        .attach('file', './tests/seed/test.xlsx')
         .expect(201)
         .expect(res => {
           expect(res.body.funds.length).toBe(3);

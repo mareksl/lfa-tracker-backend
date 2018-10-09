@@ -10,7 +10,7 @@ import fundsController from './controllers/funds.controller';
 import statisticsController from './controllers/statistics.controller';
 import { connect } from './db/mongoose';
 import excelProcessor from './middleware/excelProcessor';
-import chalk from 'chalk';
+import cors from 'cors';
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -23,20 +23,13 @@ const app = express();
 
 const db = connect();
 
-// CORS
-app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Methods', 'GET,PATCH,POST,DELETE');
-  res.header(
-    'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, x-auth'
-  );
-  res.header(
-    'Access-Control-Expose-Headers',
-    'Content-Disposition'
-  );
-  next();
-});
+const corsOptions = {
+  origin: '*',
+  methods: ['GET', 'PATCH', 'POST', 'DELETE'],
+  exposedHeaders: ['Content-Disposition']
+};
+app.use(cors(corsOptions));
+app.options('*', cors());
 
 // logging
 const accessLogStream = fs.createWriteStream(
@@ -60,13 +53,14 @@ app.get('/funds', fundsController.getAll);
 app.get('/funds/:id', fundsController.getByID);
 app.post('/funds', fundsController.post);
 app.patch('/funds/:id', fundsController.patch);
+app.delete('/funds', fundsController.deleteAll);
 app.delete('/funds/:id', fundsController.deleteById);
 
 // files
 app.get('/files', excelProcessor.exportFile, filesController.getFile);
 app.post(
   '/files',
-  upload.single('book'),
+  upload.single('file'),
   excelProcessor.importFile,
   filesController.post
 );
