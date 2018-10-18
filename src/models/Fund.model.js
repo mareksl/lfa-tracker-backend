@@ -1,6 +1,7 @@
 import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 import upsertMany from '@meanie/mongoose-upsert-many';
+import mongoosePaginate from 'mongoose-paginate';
 
 const toArray = v => (typeof v === 'string' ? v.split(',') : v);
 
@@ -94,5 +95,6 @@ const FundSchema = new mongoose.Schema({
 
 FundSchema.plugin(uniqueValidator);
 FundSchema.plugin(upsertMany);
+FundSchema.plugin(mongoosePaginate);
 
 export const Fund = mongoose.model('Fund', FundSchema);

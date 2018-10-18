@@ -1,9 +1,29 @@
 import FundsActions from '../actions/funds.actions';
 
-const getAll = (_req, res) => {
-  FundsActions.getAll()
-    .then(funds => res.send({ funds }))
-    .catch(err => res.status(500).send(err));
+const getRange = (req, res) => {
+  const page = +req.query.page;
+  const limit = +req.query.limit;
+
+  FundsActions.getCount().then(count => {
+    if (page && limit) {
+      return FundsActions.getRange(page, limit)
+        .then(result => {
+          const toSend = {
+            funds: result.docs,
+            page: result.page,
+            limit: result.limit,
+            pages: result.pages,
+            count
+          };
+          res.send(toSend);
+        })
+        .catch(err => res.status(500).send(err));
+    } else {
+      return FundsActions.getAll()
+        .then(funds => res.send({ funds, count }))
+        .catch(err => res.status(500).send(err));
+    }
+  });
 };
 
 const getByID = (req, res) => {
@@ -64,8 +84,8 @@ const deleteById = (req, res) => {
 };
 
 export default {
-  getAll,
   getByID,
+  getRange,
   post,
   patch,
   deleteAll,

@@ -4,6 +4,14 @@ const getAll = () => {
   return Fund.find({});
 };
 
+const getRange = (page, limit) => {
+  return Fund.paginate({}, { page, limit });
+};
+
+const getCount = () => {
+  return Fund.estimatedDocumentCount();
+};
+
 const getAllToExport = () => {
   return Fund.find({})
     .lean()
@@ -62,5 +70,7 @@ export default {
   removeAll,
   removeById,
   getAll,
-  getAllToExport
+  getAllToExport,
+  getRange,
+  getCount
 };

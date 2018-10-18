@@ -49,7 +49,7 @@ app.use(
 app.use(bodyParser.json());
 
 // funds
-app.get('/funds', fundsController.getAll);
+app.get('/funds', fundsController.getRange);
 app.get('/funds/:id', fundsController.getByID);
 app.post('/funds', fundsController.post);
 app.patch('/funds/:id', fundsController.patch);
