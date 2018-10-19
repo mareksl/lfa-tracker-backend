@@ -3,27 +3,28 @@ import FundsActions from '../actions/funds.actions';
 const getRange = (req, res) => {
   const page = +req.query.page;
   const limit = +req.query.limit;
+  const query = req.query.q || '';
 
-  FundsActions.getCount().then(count => {
-    if (page && limit) {
-      return FundsActions.getRange(page, limit)
-        .then(result => {
-          const toSend = {
-            funds: result.docs,
-            page: result.page,
-            limit: result.limit,
-            pages: result.pages,
-            count
-          };
-          res.send(toSend);
-        })
-        .catch(err => res.status(500).send(err));
-    } else {
+  if ((page && limit) || query) {
+    return FundsActions.getRange(page, limit, query)
+      .then(result => {
+        const toSend = {
+          funds: result.docs,
+          page: result.page,
+          limit: result.limit,
+          pages: result.pages,
+          count: result.total
+        };
+        res.send(toSend);
+      })
+      .catch(err => res.status(500).send(err));
+  } else {
+    return FundsActions.getCount().then(count => {
       return FundsActions.getAll()
         .then(funds => res.send({ funds, count }))
         .catch(err => res.status(500).send(err));
-    }
-  });
+    });
+  }
 };
 
 const getByID = (req, res) => {
@@ -36,6 +37,10 @@ const getByID = (req, res) => {
       return res.send({ fund });
     })
     .catch(err => res.status(500).send(err));
+};
+
+const getByQuery = (req, res) => {
+  const query = '1';
 };
 
 const post = (req, res) => {

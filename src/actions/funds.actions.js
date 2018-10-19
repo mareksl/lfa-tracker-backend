@@ -1,11 +1,17 @@
 import { Fund } from '../models/Fund.model';
 
 const getAll = () => {
-  return Fund.find({});
+  return Fund.find({})
+    .sort('fundName')
+    .exec();
 };
 
-const getRange = (page, limit) => {
-  return Fund.paginate({}, { page, limit });
+const getRange = (page, limit, query) => {
+  const regex = new RegExp(query, 'gi');
+  return Fund.paginate(
+    { fundName: regex },
+    { page, limit, sort: { fundName: 1 } }
+  );
 };
 
 const getCount = () => {
@@ -40,6 +46,10 @@ const findById = id => {
   return Fund.findOne({ lipperId: id });
 };
 
+const findByQuery = query => {
+  return Fund.find(query);
+};
+
 const modify = (id, data) => {
   return Fund.findOneAndUpdate(
     { lipperId: id },
@@ -66,6 +76,7 @@ export default {
   add,
   addMany,
   findById,
+  findByQuery,
   modify,
   removeAll,
   removeById,
