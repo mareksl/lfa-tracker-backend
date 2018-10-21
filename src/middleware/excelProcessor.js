@@ -1,7 +1,6 @@
 import xlsx from 'xlsx';
 import FundsActions from '../actions/funds.actions';
 import StatisticsActions from '../actions/statistics.actions';
-import { stat } from 'fs';
 
 const exportFile = (req, res, next) => {
   const wb = xlsx.utils.book_new();
@@ -30,7 +29,7 @@ const importFile = (req, res, next) => {
     return res.status(400).send();
   }
 
-  const wb = xlsx.read(file.buffer, { type: 'buffer' });
+  const wb = xlsx.read(file.buffer, { type: 'buffer', cellDates: true });
   const ws = wb.Sheets[wb.SheetNames[0]];
   const data = xlsx.utils.sheet_to_json(ws);
 

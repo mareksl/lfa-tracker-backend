@@ -14,7 +14,7 @@ const getFile = (req, res) => {
 
 const post = (req, res) => {
   const data = res.locals.data;
-
+  console.log(data);
   FundsActions.addMany(data)
     .then(funds => {
       return res.status(201).send({ funds });

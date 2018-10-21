@@ -5,7 +5,10 @@ const getAll = (req, res) => {
     .then(statistics => {
       return res.send({ statistics });
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      console.log(err);
+      res.status(500).send(err);
+    });
 };
 
 export default {
