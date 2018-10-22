@@ -29,8 +29,37 @@ const groupByProperty = (funds, property) => {
   }, {});
 };
 
+const groupByPropertyArray = (funds, property) => {
+  return funds.reduce((result, fund) => {
+    fund[property].forEach(item => {
+      if (!(item in result)) {
+        result[item] = [];
+      }
+
+      result[item].push(fund);
+    });
+    return result;
+  }, {});
+};
+
 const calculateStatsByProperty = (funds, property) => {
   const fundsByProperty = groupByProperty(funds, property);
+  const statsByProperty = {};
+
+  for (const inner in fundsByProperty) {
+    const funds = fundsByProperty[inner];
+    statsByProperty[inner] = {
+      statsByRank: calculateStatsByRank(funds),
+      totalCount: funds.length,
+      doneCount: calculateAmountDone(funds),
+      percentageDone: calculatePercentageDone(funds)
+    };
+  }
+  return statsByProperty;
+};
+
+const calculateStatsByPropertyArray = (funds, property) => {
+  const fundsByProperty = groupByPropertyArray(funds, property);
   const statsByProperty = {};
 
   for (const inner in fundsByProperty) {
@@ -74,6 +103,10 @@ const calculateStatsByAssignee = funds => {
   return calculateStatsByProperty(funds, 'fundOwner');
 };
 
+const calculateStatsByUniverse = funds => {
+  return calculateStatsByPropertyArray(funds, 'awardUniverse');
+};
+
 const calculateStatistics = funds => {
   return {
     totalCount: funds.length,
@@ -81,7 +114,8 @@ const calculateStatistics = funds => {
     percentageDone: calculatePercentageDone(funds),
     statsByRank: calculateStatsByRank(funds),
     statsByDepartment: calculateStatsByDepartment(funds),
-    statsByAssignee: calculateStatsByAssignee(funds)
+    statsByAssignee: calculateStatsByAssignee(funds),
+    statsByUniverse: calculateStatsByUniverse(funds)
   };
 };
 
