@@ -43,7 +43,7 @@ const add = data => {
 };
 
 const findById = id => {
-  return Fund.findOne({ lipperId: id });
+  return Fund.findOne({ lipperID: id });
 };
 
 const findByQuery = query => {
@@ -52,7 +52,7 @@ const findByQuery = query => {
 
 const modify = (id, data) => {
   return Fund.findOneAndUpdate(
-    { lipperId: id },
+    { lipperID: id },
     {
       $set: data
     },
@@ -65,11 +65,11 @@ const removeAll = () => {
 };
 
 const removeById = id => {
-  return Fund.findOneAndDelete({ lipperId: id });
+  return Fund.findOneAndDelete({ lipperID: id });
 };
 
 const addMany = funds => {
-  return Fund.upsertMany(funds, ['lipperId']);
+  return Fund.upsertMany(funds, ['lipperID']);
 };
 
 export default {

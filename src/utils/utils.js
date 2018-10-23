@@ -13,3 +13,10 @@ export const filenameDateString = date => {
     hours
   )}.${padNumber(minutes)}`;
 };
+
+export const toCamelCase = str =>
+  str
+    .replace(/(?:^\w|[A-Z]|\b\w)/g, function(letter, index) {
+      return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
+    })
+    .replace(/\s+/g, '');

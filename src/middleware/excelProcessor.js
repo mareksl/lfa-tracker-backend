@@ -1,6 +1,7 @@
 import xlsx from 'xlsx';
 import FundsActions from '../actions/funds.actions';
 import StatisticsActions from '../actions/statistics.actions';
+import { toCamelCase } from '../utils/utils';
 
 const exportFile = (req, res, next) => {
   const wb = xlsx.utils.book_new();
@@ -31,8 +32,15 @@ const importFile = (req, res, next) => {
 
   const wb = xlsx.read(file.buffer, { type: 'buffer', cellDates: true });
   const ws = wb.Sheets[wb.SheetNames[0]];
-  const data = xlsx.utils.sheet_to_json(ws);
+  const rawData = xlsx.utils.sheet_to_json(ws);
 
+  const data = rawData.map(item => {
+    return Object.keys(item).reduce((result, key) => {
+      const camelCaseKey = toCamelCase(key);
+      result[camelCaseKey] = item[key];
+      return result;
+    }, {});
+  });
   res.locals.data = data;
 
   next();

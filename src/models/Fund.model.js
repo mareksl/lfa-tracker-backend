@@ -7,7 +7,7 @@ const toArray = v => (typeof v === 'string' ? v.split(',') : v);
 
 const FundSchema = new mongoose.Schema(
   {
-    lipperId: {
+    lipperID: {
       type: Number,
       required: true,
       unique: true
@@ -57,7 +57,7 @@ const FundSchema = new mongoose.Schema(
     classificationScheme: {
       type: String
     },
-    isinCode: {
+    iSINCode: {
       type: String
     },
     assetTypeName: {

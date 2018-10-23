@@ -3,7 +3,7 @@ import FundsActions from '../../src/actions/funds.actions';
 
 export const seedFunds = [
   {
-    lipperId: 60081153,
+    lipperID: 60081153,
     awardUniverse: ['Austria', 'Europe', 'Germany'],
     awardPeriod: [10, 5],
     highestRank: 1,
@@ -16,7 +16,7 @@ export const seedFunds = [
     fundOwner: 'Bartlomiej Piekny',
     department: 'Gdynia - AGS',
     classificationScheme: 'Lipper Global',
-    isinCode: 'LU0140354944',
+    iSINCode: 'LU0140354944',
     assetTypeName: 'Absolute Return EUR High',
     classificationName: 'Mixed Assets',
     awardVerifiedNoteDate: '11-Jan-18',
@@ -27,7 +27,7 @@ export const seedFunds = [
     timeseriesDataVerified: true
   },
   {
-    lipperId: 60003460,
+    lipperID: 60003460,
     awardUniverse: [
       'Austria',
       'Europe',
@@ -48,7 +48,7 @@ export const seedFunds = [
     fundOwner: 'Adam Kaczmarczyk',
     department: 'Gdynia - Benelux',
     classificationScheme: 'Lipper Global',
-    isinCode: 'LU0095938881',
+    iSINCode: 'LU0095938881',
     assetTypeName: 'Absolute Return EUR High',
     classificationName: 'Alternatives',
     awardVerifiedNoteDate: '3-Jan-18',
