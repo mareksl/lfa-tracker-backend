@@ -29,12 +29,11 @@ describe('/files', () => {
           .expect(201)
           .expect(res => {
             expect(res.body.ok).toBe(1);
-            expect(res.body.nUpserted).toBe(2);
+            expect(res.body.nUpserted).toBe(3);
             done();
           })
           .catch(err => done(err));
-      },
-      30000
+      }
     );
 
     it('should return 400 if no file attached', done => {
