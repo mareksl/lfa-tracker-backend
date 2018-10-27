@@ -1,5 +1,4 @@
-import { funds } from '../../src/data/data';
-import FundsActions from '../../src/actions/funds.actions';
+import { Fund } from '../../src/models/Fund.model';
 
 export const seedFunds = [
   {
@@ -60,8 +59,14 @@ export const seedFunds = [
   }
 ];
 
-export const populateFunds = () => {
-  funds.length = 0;
-  const seedCopy = JSON.parse(JSON.stringify(seedFunds));
-  seedCopy.forEach(fund => FundsActions.add(fund));
+export const clearFunds = done => {
+  Fund.remove({}).then(() => done());
+};
+
+export const populateFunds = done => {
+  Fund.remove({})
+    .then(() => {
+      return Fund.insertMany(seedFunds);
+    })
+    .then(() => done());
 };

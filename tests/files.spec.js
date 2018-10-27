@@ -1,5 +1,9 @@
 import request from 'supertest';
 import app from '../src/app';
+import { clearFunds } from './seed/seed';
+
+beforeAll(clearFunds);
+afterAll(clearFunds);
 
 describe('/files', () => {
   describe('GET /files', () => {
@@ -16,17 +20,22 @@ describe('/files', () => {
   });
 
   describe('POST /files', () => {
-    it('should import xlsx file and add funds', done => {
-      request(app)
-        .post('/files')
-        .attach('file', './tests/seed/test.xlsx')
-        .expect(201)
-        .expect(res => {
-          expect(res.body.funds.length).toBe(3);
-          done();
-        })
-        .catch(err => done(err));
-    });
+    it(
+      'should import xlsx file and add funds',
+      done => {
+        request(app)
+          .post('/files')
+          .attach('file', './tests/seed/test.xlsx')
+          .expect(201)
+          .expect(res => {
+            expect(res.body.ok).toBe(1);
+            expect(res.body.nUpserted).toBe(2);
+            done();
+          })
+          .catch(err => done(err));
+      },
+      30000
+    );
 
     it('should return 400 if no file attached', done => {
       request(app)

@@ -1,9 +1,10 @@
 import request from 'supertest';
 import app from '../src/app';
 
-import { seedFunds, populateFunds } from './seed/seed';
+import { seedFunds, populateFunds, clearFunds } from './seed/seed';
 
 beforeAll(populateFunds);
+afterAll(clearFunds);
 
 describe('/funds', () => {
   describe('GET /funds', () => {
@@ -35,7 +36,7 @@ describe('/funds', () => {
     });
 
     it('should return 404 if fund not found', done => {
-      const id = 'asd';
+      const id = '123asd';
 
       request(app)
         .get(`/funds/${id}`)
@@ -49,8 +50,8 @@ describe('/funds', () => {
       const fund = {
         lipperID: 65000259,
         awardUniverse: 'Austria',
-        awardPeriod: [3, 5],
-        highestRank: [1],
+        awardPeriod: '3,5',
+        highestRank: '1',
         fundName: 'PRO INVEST PLUS T',
         domicile: 'Austria',
         advisorCompanyCode: 1281775,
@@ -106,13 +107,16 @@ describe('/funds', () => {
   describe('PATCH /funds/:id', () => {
     it('should modify the fund by id', done => {
       const id = seedFunds[0].lipperID;
-      const fundName = 'ModifiedFund';
+      const isin = seedFunds[0].iSINCode;
+      const fundName = 'A ModifiedFund';
+
       request(app)
         .patch(`/funds/${id}`)
         .send({ fundName })
         .expect(200)
         .expect(res => {
           expect(res.body.fund.fundName).toBe(fundName);
+          expect(res.body.fund.iSINCode).toBe(isin);
           done();
         })
         .end((err, res) => {
@@ -131,22 +135,12 @@ describe('/funds', () => {
 
     it('should return 404 if fund not found', done => {
       const id = 'asd';
-      const fundName = 'ModifiedFund';
+      const fundName = 'A ModifiedFund';
 
       request(app)
         .patch(`/funds/${id}`)
         .send({ fundName })
         .expect(404)
-        .end(done);
-    });
-
-    it('should return 400 if data invalid', done => {
-      const id = seedFunds[0].lipperID;
-
-      request(app)
-        .patch(`/funds/${id}`)
-        .send()
-        .expect(400)
         .end(done);
     });
   });

@@ -15,8 +15,8 @@ const getFile = (req, res) => {
 const post = (req, res) => {
   const data = res.locals.data;
   FundsActions.addMany(data)
-    .then(funds => {
-      return res.status(201).send({ funds });
+    .then(result => {
+      return res.status(201).send(result);
     })
     .catch(err => res.status(500).send(err));
 };

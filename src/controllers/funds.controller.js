@@ -29,6 +29,9 @@ const getRange = (req, res) => {
 
 const getByID = (req, res) => {
   const id = +req.params.id;
+  if (!id) {
+    return res.status(404).send();
+  }
   FundsActions.findById(id)
     .then(fund => {
       if (!fund) {
@@ -57,6 +60,9 @@ const post = (req, res) => {
 
 const patch = (req, res) => {
   const id = +req.params.id;
+  if (!id) {
+    return res.status(404).send();
+  }
   const data = req.body;
 
   FundsActions.modify(id, data)
@@ -78,6 +84,9 @@ const deleteAll = (req, res) => {
 
 const deleteById = (req, res) => {
   const id = +req.params.id;
+  if (!id) {
+    return res.status(404).send();
+  }
   FundsActions.removeById(id)
     .then(fund => {
       if (!fund) {
