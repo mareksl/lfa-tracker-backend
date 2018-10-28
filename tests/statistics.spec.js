@@ -2,9 +2,10 @@ import request from 'supertest';
 
 import app from '../src/app';
 
-import { seedFunds, populateFunds } from './seed/seed';
+import { seedFunds, populateFunds, clearFunds } from './seed/seed';
 
 beforeAll(populateFunds);
+afterAll(clearFunds);
 
 describe('/stats', () => {
   describe('GET /stats', () => {

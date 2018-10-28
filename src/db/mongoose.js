@@ -1,4 +1,4 @@
-import mongoose, { MongooseDocument } from 'mongoose';
+import mongoose from 'mongoose';
 import chalk from 'chalk';
 
 mongoose.Promise = global.Promise;
