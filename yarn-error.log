@@ -2,7 +2,7 @@ Arguments:
   C:\Program Files\nodejs\node.exe C:\Program Files (x86)\Yarn\bin\yarn.js test
 
 PATH: 
-  C:\Program Files (x86)\ImageMagick-6.9.9-Q16;;;;;;C:\app\U6046944\product\12.2.0\dbhome_1\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\UCRT\;C:\Program Files\Intel\UCRT\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\Symantec\VIP Access Client\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_181\bin;;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\;C:\Users\U6046944\AppData\Local\Programs\Python\Launcher\;C:\Program Files\Microsoft VS Code\bin;C:\chromedriver;C:\Users\U6046944\AppData\Local\Yarn\bin;C:\Users\U6046944\AppData\Local\Tesseract-OCR;C:\Program Files\Heroku\bin;C:\Users\U6046944\AppData\Roaming\npm;C:\Users\U6046944\AppData\Local\Continuum\anaconda3\Scripts;C:\scripts;C:\MinGW\bin;C:\Program Files\MongoDB\Server\3.6\bin
+  C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend\node_modules\.bin;C:\Users\U6046944\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend\node_modules\.bin;C:\Users\U6046944\AppData\Local\Yarn\Data\link\node_modules\.bin;C:\Program Files\libexec\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\lib\node_modules\npm\bin\node-gyp-bin;C:\Program Files\nodejs\node_modules\npm\bin\node-gyp-bin;C:\Program Files (x86)\ImageMagick-6.9.9-Q16;;;;;;C:\app\U6046944\product\12.2.0\dbhome_1\bin;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\ProgramData\Oracle\Java\javapath;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Sennheiser\SoftphoneSDK\;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\UCRT\;C:\Program Files\Intel\UCRT\;C:\Program Files\Git\cmd;C:\Program Files (x86)\Yarn\bin\;C:\Program Files (x86)\Symantec\VIP Access Client\;C:\Program Files (x86)\Windows Kits\8.1\Windows Performance Toolkit\;C:\Program Files\nodejs\;C:\Program Files\Microsoft VS Code\bin;C:\Program Files\dotnet\;C:\ProgramData\chocolatey\bin;C:\Program Files\Java\jdk1.8.0_181\bin;;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\Scripts\;C:\Users\U6046944\AppData\Local\Programs\Python\Python36-32\;C:\Users\U6046944\AppData\Local\Programs\Python\Launcher\;C:\Program Files\Microsoft VS Code\bin;C:\chromedriver;C:\Users\U6046944\AppData\Local\Yarn\bin;C:\Users\U6046944\AppData\Local\Tesseract-OCR;C:\Program Files\Heroku\bin;C:\Users\U6046944\AppData\Roaming\npm;C:\Users\U6046944\AppData\Local\Continuum\anaconda3\Scripts;C:\scripts;C:\MinGW\bin;C:\Program Files\MongoDB\Server\3.6\bin
 
 Yarn version: 
   1.5.1
@@ -25,9 +25,11 @@ npm manifest:
       "@meanie/mongoose-upsert-many": "^1.5.1",
       "body-parser": "^1.18.3",
       "chalk": "^2.4.1",
+      "cors": "^2.8.4",
       "express": "^4.16.3",
       "mongodb": "^3.1.6",
       "mongoose": "^5.3.1",
+      "mongoose-paginate": "^5.0.3",
       "mongoose-unique-validator": "^2.0.2",
       "morgan": "^1.9.1",
       "multer": "^1.4.0",
@@ -44,7 +46,7 @@ npm manifest:
     },
     "scripts": {
       "dev": "nodemon --exec babel-node src/index.js",
-      "test": "jest --bail --verbose",
+      "test": "jest --bail --verbose --runInBand",
       "test-watch": "nodemon --watch src/ --watch tests/ -e js --exec \"yarn test\"",
       "coverage": "jest --collectCoverageFrom=src/**.js --collectCoverageFrom=!src/index.js --coverage",
       "clean": "rimraf ./build && mkdir build",
@@ -835,6 +837,10 @@ Lockfile:
     version "1.12.0"
     resolved "https://registry.yarnpkg.com/binary-extensions/-/binary-extensions-1.12.0.tgz#c2d780f53d45bba8317a8902d4ceeaf3a6385b14"
   
+  bluebird@3.0.5:
+    version "3.0.5"
+    resolved "http://registry.npmjs.org/bluebird/-/bluebird-3.0.5.tgz#2ff9d07c9b3edb29d6d280fe07528365e7ecd392"
+  
   bluebird@3.5.1:
     version "3.5.1"
     resolved "https://registry.yarnpkg.com/bluebird/-/bluebird-3.5.1.tgz#d9551f9de98f1fcda1e683d17ee91a0602ee2eb9"
@@ -1216,6 +1222,13 @@ Lockfile:
   core-util-is@1.0.2, core-util-is@~1.0.0:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
+  
+  cors@^2.8.4:
+    version "2.8.4"
+    resolved "https://registry.yarnpkg.com/cors/-/cors-2.8.4.tgz#2bd381f2eb201020105cd50ea59da63090694686"
+    dependencies:
+      object-assign "^4"
+      vary "^1"
   
   crc-32@~1.2.0:
     version "1.2.0"
@@ -3049,6 +3062,12 @@ Lockfile:
     version "1.0.2"
     resolved "https://registry.yarnpkg.com/mongoose-legacy-pluralize/-/mongoose-legacy-pluralize-1.0.2.tgz#3ba9f91fa507b5186d399fb40854bff18fb563e4"
   
+  mongoose-paginate@^5.0.3:
+    version "5.0.3"
+    resolved "https://registry.yarnpkg.com/mongoose-paginate/-/mongoose-paginate-5.0.3.tgz#d7ae49ed5bf64f1f7af7620ea865b67058c55371"
+    dependencies:
+      bluebird "3.0.5"
+  
   mongoose-unique-validator@^2.0.2:
     version "2.0.2"
     resolved "https://registry.yarnpkg.com/mongoose-unique-validator/-/mongoose-unique-validator-2.0.2.tgz#a980e68638157cd8fcea86d754eeb2cf67e6bb76"
@@ -3264,7 +3283,7 @@ Lockfile:
     version "0.9.0"
     resolved "https://registry.yarnpkg.com/oauth-sign/-/oauth-sign-0.9.0.tgz#47a7b016baa68b5fa0ecf3dee08a85c679ac6455"
   
-  object-assign@^4.1.0, object-assign@^4.1.1:
+  object-assign@^4, object-assign@^4.1.0, object-assign@^4.1.1:
     version "4.1.1"
     resolved "https://registry.yarnpkg.com/object-assign/-/object-assign-4.1.1.tgz#2109adc7965887cfc05cbbd442cac8bfbb360863"
   
@@ -4498,7 +4517,7 @@ Lockfile:
     version "10.8.0"
     resolved "https://registry.yarnpkg.com/validator/-/validator-10.8.0.tgz#8acb15a5c39411cbc8ef2be0c98c2514da4410a7"
   
-  vary@~1.1.2:
+  vary@^1, vary@~1.1.2:
     version "1.1.2"
     resolved "https://registry.yarnpkg.com/vary/-/vary-1.1.2.tgz#2299f02c6ded30d4a5961b0b9f74524a18f634fc"
   
@@ -4677,7 +4696,7 @@ Trace:
   Error: Command failed.
   Exit code: 1
   Command: C:\WINDOWS\system32\cmd.exe
-  Arguments: /d /s /c jest --bail --verbose
+  Arguments: /d /s /c jest --bail --verbose --runInBand
   Directory: C:\Users\U6046944\Documents\GitHub\LFA Tracker\lfa-tracker-backend
   Output:
   

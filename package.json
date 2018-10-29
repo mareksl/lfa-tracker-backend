@@ -30,9 +30,9 @@
   },
   "scripts": {
     "dev": "nodemon --exec babel-node src/index.js",
-    "test": "jest --bail --verbose --runInBand",
+    "test": "jest --bail --verbose --runInBand --detectOpenHandles --forceExit",
     "test-watch": "nodemon --watch src/ --watch tests/ -e js --exec \"yarn test\"",
-    "coverage": "jest --collectCoverageFrom=src/**.js --collectCoverageFrom=!src/index.js --coverage",
+    "coverage": "jest --collectCoverageFrom=src/**.js --collectCoverageFrom=!src/index.js --coverage --runInBand --forceExit",
     "clean": "rimraf ./build && mkdir build",
     "build-server": "babel -d ./build ./src -s",
     "build": "yarn run clean && yarn run build-server",
