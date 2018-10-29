@@ -20,3 +20,20 @@ export const toCamelCase = str =>
       return index == 0 ? letter.toLowerCase() : letter.toUpperCase();
     })
     .replace(/\s+/g, '');
+
+export const makeRegexObject = obj => {
+  return Object.keys(obj).reduce((result, key) => {
+    result[key] = new RegExp(obj[key], 'i');
+    return result;
+  }, {});
+};
+
+export const pick = (obj, keys) => {
+  const ret = {};
+  keys.forEach(key => {
+    if (obj[key]) {
+      ret[key] = obj[key];
+    }
+  });
+  return ret;
+};

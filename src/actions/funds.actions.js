@@ -1,4 +1,5 @@
 import { Fund } from '../models/Fund.model';
+import { makeRegexObject } from '../utils/utils';
 
 const getAll = () => {
   return Fund.find({})
@@ -6,12 +7,9 @@ const getAll = () => {
     .exec();
 };
 
-const getRange = (page, limit, query) => {
-  const regex = new RegExp(query, 'gi');
-  return Fund.paginate(
-    { fundName: regex },
-    { page, limit, sort: { fundName: 1 } }
-  );
+const getByQuery = (page, limit, query, sort) => {
+  const regexQuery = makeRegexObject(query);
+  return Fund.paginate(regexQuery, { page, limit, sort });
 };
 
 const getCount = () => {
@@ -46,10 +44,6 @@ const findById = id => {
   return Fund.findOne({ lipperID: id });
 };
 
-const findByQuery = query => {
-  return Fund.find(query);
-};
-
 const modify = (id, data) => {
   return Fund.findOneAndUpdate(
     { lipperID: id },
@@ -76,12 +70,11 @@ export default {
   add,
   addMany,
   findById,
-  findByQuery,
   modify,
   removeAll,
   removeById,
   getAll,
   getAllToExport,
-  getRange,
+  getByQuery,
   getCount
 };

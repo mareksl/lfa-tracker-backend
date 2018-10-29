@@ -1,31 +1,5 @@
 import FundsActions from '../actions/funds.actions';
-
-const getRange = (req, res) => {
-  const page = +req.query.page;
-  const limit = +req.query.limit;
-  const query = req.query.q || '';
-
-  if ((page && limit) || query) {
-    return FundsActions.getRange(page, limit, query)
-      .then(result => {
-        const toSend = {
-          funds: result.docs,
-          page: result.page,
-          limit: result.limit,
-          pages: result.pages,
-          count: result.total
-        };
-        res.send(toSend);
-      })
-      .catch(err => res.status(500).send(err));
-  } else {
-    return FundsActions.getCount().then(count => {
-      return FundsActions.getAll()
-        .then(funds => res.send({ funds, count }))
-        .catch(err => res.status(500).send(err));
-    });
-  }
-};
+import { pick } from '../utils/utils';
 
 const getByID = (req, res) => {
   const id = +req.params.id;
@@ -43,7 +17,36 @@ const getByID = (req, res) => {
 };
 
 const getByQuery = (req, res) => {
-  const query = '1';
+  const query = pick(req.query, [
+    'fundName',
+    'lipperID',
+    'fundOwner',
+    'department',
+    'universe',
+    'ranks'
+  ]);
+
+  const page = +req.query.page || 1;
+
+  const limit =
+    (+req.query.limit === 0 ? Number.MAX_SAFE_INTEGER : +req.query.limit) || 10;
+
+  const orderBy = req.query.orderBy
+    ? { [req.query.orderBy]: +req.query.desc === 1 ? -1 : 1 }
+    : { fundName: 1 };
+
+  return FundsActions.getByQuery(page, limit, query, orderBy)
+    .then(result => {
+      const toSend = {
+        funds: result.docs,
+        page: result.page,
+        limit: result.limit,
+        pages: result.pages,
+        count: result.total
+      };
+      res.send(toSend);
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 const post = (req, res) => {
@@ -99,7 +102,7 @@ const deleteById = (req, res) => {
 
 export default {
   getByID,
-  getRange,
+  getByQuery,
   post,
   patch,
   deleteAll,
