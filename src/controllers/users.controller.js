@@ -1,13 +1,10 @@
 import { pick } from '../utils/utils';
-import { User } from '../models/User.model';
+import UsersActions from '../actions/users.actions';
 
 const createUser = (req, res) => {
   const body = pick(req.body, ['userID', 'password']);
-  const user = new User(body);
 
-  user
-    .save()
-    .then(() => user.generateAuthToken())
+  UsersActions.create(body)
     .then(token => {
       res.header('x-auth', token).send(user);
     })
@@ -21,13 +18,9 @@ const getUser = (req, res) => {
 const login = (req, res) => {
   const body = pick(req.body, ['userID', 'password']);
 
-  User.findByCredentials(body.username, body.password)
-    .then(user => {
-      return user.generateAuthToken();
-    })
-    .then(token => {
-      res.header('x-auth', token).send(user);
-    });
+  UsersActions.login(body).then(token => {
+    res.header('x-auth', token).send(user);
+  });
 };
 
 const logout = (req, res) => {
@@ -35,8 +28,7 @@ const logout = (req, res) => {
     return res.status(400).send();
   }
 
-  req.user
-    .removeToken(req.token)
+  UsersActions.logout(req.user, req.token)
     .then(() => res.status(200).send())
     .catch(err => res.status(400).send(err));
 };
@@ -49,16 +41,7 @@ const patch = (req, res) => {
 
   const id = req.user._id;
 
-  User.findByIdAndUpdate(
-    id,
-    {
-      $set: body
-    },
-    {
-      new: true,
-      runValidators: true
-    }
-  )
+  UsersActions.patch(id, body)
     .then(user => {
       if (!user) {
         return res.status(400).send();
@@ -72,5 +55,6 @@ export default {
   createUser,
   getUser,
   login,
-  logout
+  logout,
+  patch
 };

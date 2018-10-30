@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 import fs from 'fs';
 import morgan from 'morgan';
@@ -10,7 +11,8 @@ import fundsController from './controllers/funds.controller';
 import statisticsController from './controllers/statistics.controller';
 import { connect } from './db/mongoose';
 import excelProcessor from './middleware/excelProcessor';
-import cors from 'cors';
+import { authenticate } from './middleware/authenticate';
+import usersController from './controllers/users.controller';
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -68,8 +70,15 @@ app.post(
 // statistics
 app.get('/stats', statisticsController.getAll);
 
+// users
+app.get('/users/me', authenticate, usersController.getUser);
+app.post('/users', usersController.createUser);
+app.post('/users/login', usersController.login);
+app.delete('/users/me/token', authenticate, usersController.logout);
+app.patch('/users/me', authenticate, usersController.patch);
+
 // catch all
-app.all('*', (req, res) => {
+app.all('*', (_req, res) => {
   res.status(404).send('404 Not Found');
 });
 
