@@ -1,4 +1,5 @@
 import FundsActions from './funds.actions';
+import { Statistics } from '../models/Statistics.model';
 
 const checkFundStatus = fund =>
   fund.extendedLGCVerified &&
@@ -119,12 +120,25 @@ const calculateStatistics = funds => {
   };
 };
 
-const getStatistics = () => {
-  return FundsActions.getAll().then(funds => {
-    return calculateStatistics(funds);
-  });
+const getLatestStatistics = () => {
+  return Statistics.findOne()
+    .sort({ date: -1 })
+    .lean();
+};
+
+const getHistoricalStatistics = () => {
+  return Statistics.find()
+    .sort({ date: -1 })
+    .lean();
+};
+
+const saveStatistics = stats => {
+  const statisticsDoc = new Statistics(calculateStatistics(stats));
+  return statisticsDoc.save();
 };
 
 export default {
-  getStatistics
+  getLatestStatistics,
+  getHistoricalStatistics,
+  saveStatistics
 };

@@ -9,10 +9,10 @@ import './config/config';
 import filesController from './controllers/files.controller';
 import fundsController from './controllers/funds.controller';
 import statisticsController from './controllers/statistics.controller';
-import { connect } from './db/mongoose';
-import excelProcessor from './middleware/excelProcessor';
-import { authenticate } from './middleware/authenticate';
 import usersController from './controllers/users.controller';
+import { connect } from './db/mongoose';
+import { authenticate } from './middleware/authenticate';
+import excelProcessor from './middleware/excelProcessor';
 
 const storage = multer.memoryStorage();
 const upload = multer({
@@ -68,7 +68,8 @@ app.post(
 );
 
 // statistics
-app.get('/stats', statisticsController.getAll);
+app.get('/stats', statisticsController.getLatest);
+app.get('/stats/history', statisticsController.getHistory);
 
 // users
 app.get('/users/me', authenticate, usersController.getUser);

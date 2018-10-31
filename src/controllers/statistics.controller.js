@@ -1,16 +1,26 @@
 import StatisticsActions from '../actions/statistics.actions';
 
-const getAll = (req, res) => {
-  StatisticsActions.getStatistics()
+const getLatest = (_req, res) => {
+  StatisticsActions.getLatestStatistics()
     .then(statistics => {
       return res.send({ statistics });
     })
     .catch(err => {
-      console.log(err);
+      res.status(500).send(err);
+    });
+};
+
+const getHistory = (_req, res) => {
+  StatisticsActions.getHistoricalStatistics()
+    .then(statistics => {
+      return res.send({ statistics });
+    })
+    .catch(err => {
       res.status(500).send(err);
     });
 };
 
 export default {
-  getAll
+  getLatest,
+  getHistory
 };

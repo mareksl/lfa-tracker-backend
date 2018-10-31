@@ -63,7 +63,9 @@ const removeById = id => {
 };
 
 const addMany = funds => {
-  return Fund.upsertMany(funds, ['lipperID']);
+  return removeAll().then(_response => {
+    return Fund.insertMany(funds);
+  });
 };
 
 export default {

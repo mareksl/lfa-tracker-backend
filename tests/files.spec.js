@@ -26,8 +26,8 @@ describe('/files', () => {
         .attach('file', './tests/seed/test.xlsx')
         .expect(201)
         .expect(res => {
-          expect(res.body.ok).toBe(1);
-          expect(res.body.nUpserted).toBe(3);
+          expect(res.body.statistics.totalCount).toBe(3);
+          expect(res.body.statistics.doneCount).toBe(2);
           done();
         })
         .catch(err => done(err));

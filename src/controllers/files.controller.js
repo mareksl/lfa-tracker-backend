@@ -1,8 +1,8 @@
 import FundsActions from '../actions/funds.actions';
-
+import StatisticsActions from '../actions/statistics.actions';
 import { filenameDateString } from '../utils/utils';
 
-const getFile = (req, res) => {
+const getFile = (_req, res) => {
   const file = res.locals.file;
   const date = new Date();
   const filename = `LFA_Tracker_Export_${filenameDateString(date)}`;
@@ -12,11 +12,15 @@ const getFile = (req, res) => {
   res.send(file);
 };
 
-const post = (req, res) => {
+const post = (_req, res) => {
   const data = res.locals.data;
+
   FundsActions.addMany(data)
     .then(result => {
-      return res.status(201).send(result);
+      return StatisticsActions.saveStatistics(result);
+    })
+    .then(statistics => {
+      return res.status(201).send({ statistics });
     })
     .catch(err => res.status(500).send(err));
 };

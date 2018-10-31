@@ -3,7 +3,7 @@ import FundsActions from '../actions/funds.actions';
 import StatisticsActions from '../actions/statistics.actions';
 import { toCamelCase } from '../utils/utils';
 
-const exportFile = (req, res, next) => {
+const exportFile = (_req, res, next) => {
   const wb = xlsx.utils.book_new();
   FundsActions.getAllToExport()
     .then(funds => {
@@ -11,7 +11,7 @@ const exportFile = (req, res, next) => {
       xlsx.utils.book_append_sheet(wb, ws, 'Funds');
     })
     .then(() => {
-      StatisticsActions.getStatistics().then(stats => {
+      StatisticsActions.getLatestStatistics().then(stats => {
         const ws = xlsx.utils.json_to_sheet([stats]);
         xlsx.utils.book_append_sheet(wb, ws, 'Statistics');
         const file = xlsx.write(wb, { type: 'buffer', compression: true });

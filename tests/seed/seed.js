@@ -1,4 +1,5 @@
 import { Fund } from '../../src/models/Fund.model';
+import StatisticsActions from '../../src/actions/statistics.actions';
 
 export const seedFunds = [
   {
@@ -66,6 +67,7 @@ export const clearFunds = done => {
 export const populateFunds = done => {
   Fund.remove({})
     .then(() => {
+      StatisticsActions.saveStatistics(seedFunds);
       return Fund.insertMany(seedFunds);
     })
     .then(() => done());
