@@ -16,7 +16,17 @@ import excelProcessor from './middleware/excelProcessor';
 
 const storage = multer.memoryStorage();
 const upload = multer({
-  storage: storage
+  storage: storage,
+  fileFilter: (_req, file, cb) => {
+    if (
+      file.mimetype ===
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' ||
+      file.mimetype === 'application/vnd.ms-excel'
+    ) {
+      cb(null, true);
+    }
+    cb(null, false);
+  }
 });
 
 const app = express();

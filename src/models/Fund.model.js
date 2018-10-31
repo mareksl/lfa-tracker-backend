@@ -98,6 +98,9 @@ const FundSchema = new mongoose.Schema(
   }
 );
 
+mongoose.Schema.Types.Boolean.convertToFalse.add('No');
+mongoose.Schema.Types.Boolean.convertToTrue.add('Yes');
+
 FundSchema.plugin(uniqueValidator);
 FundSchema.plugin(upsertMany);
 FundSchema.plugin(mongoosePaginate);
