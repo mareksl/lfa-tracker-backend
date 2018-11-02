@@ -30,11 +30,14 @@ const StatisticsSchema = mongoose.Schema({
 });
 
 StatisticsSchema.pre('save', function(next) {
-  const today = moment().startOf('day');
+  const doc = this;
+  const start = moment(doc.date).startOf('day');
+  const end = moment(doc.date).endOf('day');
 
   Statistics.deleteMany({
     date: {
-      $gte: today.toDate()
+      $gte: start,
+      $lt: end
     }
   }).then(_result => {
     next();

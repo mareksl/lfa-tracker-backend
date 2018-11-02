@@ -132,8 +132,10 @@ const getHistoricalStatistics = () => {
     .lean();
 };
 
-const saveStatistics = stats => {
-  const statisticsDoc = new Statistics(calculateStatistics(stats));
+const saveStatistics = (stats, date) => {
+  const statistics = calculateStatistics(stats);
+  statistics.date = date;
+  const statisticsDoc = new Statistics(statistics);
   return statisticsDoc.save();
 };
 
