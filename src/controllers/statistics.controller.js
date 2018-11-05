@@ -5,9 +5,7 @@ const getLatest = (_req, res) => {
     .then(statistics => {
       return res.send({ statistics });
     })
-    .catch(err => {
-      res.status(500).send(err);
-    });
+    .catch(err => res.status(500).send(err));
 };
 
 const getHistory = (_req, res) => {
@@ -15,12 +13,20 @@ const getHistory = (_req, res) => {
     .then(statistics => {
       return res.send({ statistics });
     })
-    .catch(err => {
-      res.status(500).send(err);
-    });
+    .catch(err => res.status(500).send(err));
+};
+
+const deleteById = (req, res) => {
+  const id = req.params.id;
+  StatisticsActions.removeById(id)
+    .then(statistics => {
+      return res.send({ statistics });
+    })
+    .catch(err => res.status(500).send(err));
 };
 
 export default {
   getLatest,
-  getHistory
+  getHistory,
+  deleteById
 };

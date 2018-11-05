@@ -80,6 +80,7 @@ app.post(
 // statistics
 app.get('/stats', statisticsController.getLatest);
 app.get('/stats/history', statisticsController.getHistory);
+app.delete('/stats/:id', statisticsController.deleteById);
 
 // users
 app.get('/users/me', authenticate, usersController.getUser);

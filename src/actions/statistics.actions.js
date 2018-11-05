@@ -139,8 +139,18 @@ const saveStatistics = (stats, date) => {
   return statisticsDoc.save();
 };
 
+const removeById = id => {
+  return Statistics.findByIdAndDelete(id);
+};
+
+const removeAll = id => {
+  return Statistics.deleteMany({});
+};
+
 export default {
   getLatestStatistics,
   getHistoricalStatistics,
-  saveStatistics
+  saveStatistics,
+  removeById,
+  removeAll
 };
