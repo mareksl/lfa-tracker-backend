@@ -7,12 +7,15 @@ const authenticate = token => {
 const create = data => {
   const user = new User(data);
 
-  return user.save().then(() => user.generateAuthToken());
+  return user
+    .save()
+    .then(() => user.generateAuthToken())
+    .then(token => ({ user, token }));
 };
 
 const login = data => {
   return User.findByCredentials(data.username, data.password).then(user => {
-    return user.generateAuthToken();
+    return user.generateAuthToken().then(token => ({ user, token }));
   });
 };
 

@@ -5,8 +5,11 @@ const createUser = (req, res) => {
   const body = pick(req.body, ['userID', 'password']);
 
   UsersActions.create(body)
-    .then(token => {
-      res.header('x-auth', token).send(user);
+    .then(data => {
+      res
+        .status(201)
+        .header('x-auth', data.token)
+        .send(data.user);
     })
     .catch(err => res.status(400).send(err));
 };
@@ -18,9 +21,13 @@ const getUser = (req, res) => {
 const login = (req, res) => {
   const body = pick(req.body, ['userID', 'password']);
 
-  UsersActions.login(body).then(token => {
-    res.header('x-auth', token).send(user);
-  });
+  UsersActions.login(body)
+    .then(data => {
+      res.header('x-auth', data.token).send(data.user);
+    })
+    .catch(err => {
+      res.status(400).send(err);
+    });
 };
 
 const logout = (req, res) => {
