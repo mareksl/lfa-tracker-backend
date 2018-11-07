@@ -26,6 +26,14 @@ const UserSchema = new mongoose.Schema({
     type: Boolean,
     default: false
   },
+  firstName: {
+    type: String,
+    trim: true
+  },
+  lastName: {
+    type: String,
+    trim: true
+  },
   tokens: [
     {
       access: {
@@ -104,7 +112,7 @@ UserSchema.methods.toJSON = function() {
   const user = this;
   const userObject = user.toObject();
 
-  return pick(userObject, ['_id', 'userID', 'role']);
+  return pick(userObject, ['_id', 'userID', 'role', 'firstName', 'lastName']);
 };
 
 UserSchema.pre('save', function(next) {

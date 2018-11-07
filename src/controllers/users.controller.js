@@ -2,7 +2,7 @@ import { pick } from '../utils/utils';
 import UsersActions from '../actions/users.actions';
 
 const createUser = (req, res) => {
-  const body = pick(req.body, ['userID', 'password']);
+  const body = pick(req.body, ['userID', 'password', 'firstName', 'lastName']);
 
   UsersActions.create(body)
     .then(data => {
