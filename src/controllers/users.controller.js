@@ -23,10 +23,16 @@ const login = (req, res) => {
 
   UsersActions.login(body)
     .then(data => {
-      res.header('x-auth', data.token).send(data.user);
+      return res.header('x-auth', data.token).send(data.user);
     })
     .catch(err => {
-      res.status(400).send(err);
+      if (err.message === 'User not found' || 'User inactive') {
+        return res.status(401).send(err.message);
+      }
+      if (err.message === 'Wrong password') {
+        return res.status(401).send(err.message);
+      }
+      return res.status(400).send(err);
     });
 };
 

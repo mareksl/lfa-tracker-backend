@@ -38,7 +38,7 @@ const db = connect();
 const corsOptions = {
   origin: '*',
   methods: ['GET', 'PATCH', 'POST', 'DELETE'],
-  exposedHeaders: ['Content-Disposition']
+  exposedHeaders: ['Content-Disposition', 'x-auth']
 };
 app.use(cors(corsOptions));
 app.options('*', cors());

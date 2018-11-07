@@ -20,7 +20,11 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     required: true,
     default: 'analyst',
-    enum: ['analyst', 'admin', 'manager']
+    enum: ['analyst', 'admin', 'manager', 'super']
+  },
+  active: {
+    type: Boolean,
+    default: false
   },
   tokens: [
     {
@@ -89,7 +93,7 @@ UserSchema.statics.findByCredentials = function(userID, password) {
         if (res) {
           resolve(user);
         } else {
-          reject();
+          reject(new Error('Wrong password'));
         }
       });
     });

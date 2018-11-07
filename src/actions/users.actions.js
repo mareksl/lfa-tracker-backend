@@ -14,7 +14,10 @@ const create = data => {
 };
 
 const login = data => {
-  return User.findByCredentials(data.username, data.password).then(user => {
+  return User.findByCredentials(data.userID, data.password).then(user => {
+    if (!user.active) {
+      throw new Error('User inactive');
+    }
     return user.generateAuthToken().then(token => ({ user, token }));
   });
 };
