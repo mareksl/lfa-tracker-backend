@@ -61,26 +61,32 @@ app.use(
 app.use(bodyParser.json());
 
 // funds
-app.get('/funds', fundsController.getByQuery);
-app.get('/funds/:id', fundsController.getByID);
-app.post('/funds', fundsController.post);
-app.patch('/funds/:id', fundsController.patch);
-app.delete('/funds', fundsController.deleteAll);
-app.delete('/funds/:id', fundsController.deleteById);
+app.get('/funds', authenticate, fundsController.getByQuery);
+app.get('/funds/:id', authenticate, fundsController.getByID);
+app.post('/funds', authenticate, fundsController.post);
+app.patch('/funds/:id', authenticate, fundsController.patch);
+app.delete('/funds', authenticate, fundsController.deleteAll);
+app.delete('/funds/:id', authenticate, fundsController.deleteById);
 
 // files
-app.get('/files', excelProcessor.exportFile, filesController.getFile);
+app.get(
+  '/files',
+  authenticate,
+  excelProcessor.exportFile,
+  filesController.getFile
+);
 app.post(
   '/files',
+  authenticate,
   upload.single('file'),
   excelProcessor.importFile,
   filesController.post
 );
 
 // statistics
-app.get('/stats', statisticsController.getLatest);
-app.get('/stats/history', statisticsController.getHistory);
-app.delete('/stats/:id', statisticsController.deleteById);
+app.get('/stats', authenticate, statisticsController.getLatest);
+app.get('/stats/history', authenticate, statisticsController.getHistory);
+app.delete('/stats/:id', authenticate, statisticsController.deleteById);
 
 // users
 app.get('/users/me', authenticate, usersController.getUser);
