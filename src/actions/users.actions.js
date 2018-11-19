@@ -39,10 +39,15 @@ const patch = (id, data) => {
   );
 };
 
+const getAll = () => {
+  return User.find({});
+};
+
 export default {
   authenticate,
   create,
   login,
   logout,
-  patch
+  patch,
+  getAll
 };

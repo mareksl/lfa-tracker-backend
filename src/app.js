@@ -90,6 +90,7 @@ app.delete('/stats/:id', authenticate, statisticsController.deleteById);
 
 // users
 app.get('/users/me', authenticate, usersController.getUser);
+app.get('/users', authenticate, usersController.getAll);
 app.post('/users', usersController.createUser);
 app.post('/users/login', usersController.login);
 app.delete('/users/me/token', authenticate, usersController.logout);

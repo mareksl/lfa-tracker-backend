@@ -64,10 +64,17 @@ const patch = (req, res) => {
     .catch(err => res.status(400).send(err));
 };
 
+const getAll = (req, res) => {
+  UsersActions.getAll()
+    .then(users => res.send({ users }))
+    .catch(err => res.status(500).send(err));
+};
+
 export default {
   createUser,
   getUser,
   login,
   logout,
-  patch
+  patch,
+  getAll
 };
