@@ -126,6 +126,12 @@ app.post('/users', usersController.createUser);
 app.post('/users/login', usersController.login);
 app.delete('/users/me/token', authenticate, usersController.logout);
 app.patch('/users/me', authenticate, usersController.patchMe);
+app.get(
+  '/users/:id',
+  authenticate,
+  checkRole(['admin', 'super']),
+  usersController.getByUserID
+);
 app.patch(
   '/users/:id',
   authenticate,

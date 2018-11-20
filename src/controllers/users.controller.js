@@ -46,6 +46,19 @@ const logout = (req, res) => {
     .catch(err => res.status(400).send(err));
 };
 
+const getByUserID = (req, res) => {
+  const id = +req.params.id;
+
+  UsersActions.findByUserID(id)
+    .then(user => {
+      if (!user) {
+        return res.status(404).send();
+      }
+      return res.send({ user });
+    })
+    .catch(err => res.status(400).send(err));
+};
+
 const patchByUserID = (req, res) => {
   const body = pick(req.body, [
     'password',
@@ -66,7 +79,7 @@ const patchByUserID = (req, res) => {
       if (!user) {
         return res.status(400).send();
       }
-      return res.send(user);
+      return res.send({ user });
     })
     .catch(err => res.status(400).send(err));
 };
@@ -84,7 +97,7 @@ const patchMe = (req, res) => {
       if (!user) {
         return res.status(400).send();
       }
-      return res.send(user);
+      return res.send({ user });
     })
     .catch(err => res.status(400).send(err));
 };
@@ -101,6 +114,7 @@ export default {
   login,
   logout,
   patchMe,
+  getByUserID,
   patchByUserID,
   getAll
 };
