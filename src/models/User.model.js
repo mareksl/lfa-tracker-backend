@@ -119,7 +119,14 @@ UserSchema.methods.toJSON = function() {
   const user = this;
   const userObject = user.toObject();
 
-  return pick(userObject, ['_id', 'userID', 'role', 'firstName', 'lastName']);
+  return pick(userObject, [
+    '_id',
+    'userID',
+    'role',
+    'firstName',
+    'lastName',
+    'active'
+  ]);
 };
 
 UserSchema.pre('save', function(next) {

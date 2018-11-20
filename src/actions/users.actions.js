@@ -4,6 +4,10 @@ const authenticate = token => {
   return User.findByToken(token);
 };
 
+const findByUserID = id => {
+  return User.findOne({ userID: id });
+};
+
 const create = data => {
   const user = new User(data);
 
@@ -45,6 +49,7 @@ const getAll = () => {
 
 export default {
   authenticate,
+  findByUserID,
   create,
   login,
   logout,

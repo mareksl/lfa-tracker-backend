@@ -46,8 +46,33 @@ const logout = (req, res) => {
     .catch(err => res.status(400).send(err));
 };
 
-const patch = (req, res) => {
-  const body = pick(req.body, ['password']);
+const patchByUserID = (req, res) => {
+  const body = pick(req.body, [
+    'password',
+    'firstName',
+    'lastName',
+    'active',
+    'role'
+  ]);
+  if (!req.user) {
+    return res.status(400).send();
+  }
+
+  const id = +req.params.id;
+
+  UsersActions.findByUserID(id)
+    .then(user => UsersActions.patch(user._id, body))
+    .then(user => {
+      if (!user) {
+        return res.status(400).send();
+      }
+      return res.send(user);
+    })
+    .catch(err => res.status(400).send(err));
+};
+
+const patchMe = (req, res) => {
+  const body = pick(req.body, ['password', 'firstName', 'lastName']);
   if (!req.user) {
     return res.status(400).send();
   }
@@ -75,6 +100,7 @@ export default {
   getUser,
   login,
   logout,
-  patch,
+  patchMe,
+  patchByUserID,
   getAll
 };

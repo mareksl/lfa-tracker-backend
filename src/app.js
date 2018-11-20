@@ -94,7 +94,8 @@ app.get('/users', authenticate, usersController.getAll);
 app.post('/users', usersController.createUser);
 app.post('/users/login', usersController.login);
 app.delete('/users/me/token', authenticate, usersController.logout);
-app.patch('/users/me', authenticate, usersController.patch);
+app.patch('/users/me', authenticate, usersController.patchMe);
+app.patch('/users/:id', authenticate, usersController.patchByUserID);
 
 // catch all
 app.all('*', (_req, res) => {
