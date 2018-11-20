@@ -1,5 +1,5 @@
 import { Fund } from '../models/Fund.model';
-import { makeRegexObject } from '../utils/utils';
+import { makeSearchQuery } from '../utils/utils';
 
 const getAll = () => {
   return Fund.find({})
@@ -8,8 +8,9 @@ const getAll = () => {
 };
 
 const getByQuery = (page, limit, query, sort) => {
-  const regexQuery = makeRegexObject(query);
-  return Fund.paginate(regexQuery, { page, limit, sort });
+  const q = makeSearchQuery(query);
+  console.log(q);
+  return Fund.paginate(q, { page, limit, sort });
 };
 
 const getCount = () => {

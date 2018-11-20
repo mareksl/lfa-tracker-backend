@@ -22,8 +22,8 @@ const getByQuery = (req, res) => {
     'lipperID',
     'fundOwner',
     'department',
-    'universe',
-    'ranks'
+    'awardUniverse',
+    'highestRank'
   ]);
 
   const page = +req.query.page || 1;
@@ -46,7 +46,10 @@ const getByQuery = (req, res) => {
       };
       res.send(toSend);
     })
-    .catch(err => res.status(500).send(err));
+    .catch(err => {
+      console.log(err);
+      return res.status(500).send(err);
+    });
 };
 
 const post = (req, res) => {
