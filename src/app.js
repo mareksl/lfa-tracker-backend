@@ -138,6 +138,12 @@ app.patch(
   checkRole(['admin', 'super']),
   usersController.patchByUserID
 );
+app.delete(
+  '/users/:id',
+  authenticate,
+  checkRole(['admin', 'super']),
+  usersController.removeById
+);
 
 // catch all
 app.all('*', (_req, res) => {

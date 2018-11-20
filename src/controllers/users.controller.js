@@ -108,6 +108,20 @@ const getAll = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
+const removeById = (req, res) => {
+  const id = +req.params.id;
+
+  UsersActions.findByUserID(id)
+    .then(user => UsersActions.removeById(user._id))
+    .then(user => {
+      if (!user) {
+        return res.status(404).send();
+      }
+      return res.send({ user });
+    })
+    .catch(err => res.status(400).send(err));
+};
+
 export default {
   createUser,
   getUser,
@@ -116,5 +130,6 @@ export default {
   patchMe,
   getByUserID,
   patchByUserID,
-  getAll
+  getAll,
+  removeById
 };

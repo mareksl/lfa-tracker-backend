@@ -47,6 +47,10 @@ const getAll = () => {
   return User.find({});
 };
 
+const removeById = id => {
+  return User.findByIdAndDelete(id);
+};
+
 export default {
   authenticate,
   findByUserID,
@@ -54,5 +58,6 @@ export default {
   login,
   logout,
   patch,
-  getAll
+  getAll,
+  removeById
 };
