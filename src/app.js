@@ -11,7 +11,7 @@ import fundsController from './controllers/funds.controller';
 import statisticsController from './controllers/statistics.controller';
 import usersController from './controllers/users.controller';
 import { connect } from './db/mongoose';
-import { authenticate } from './middleware/authenticate';
+import { authenticate, checkRole } from './middleware/authenticate';
 import excelProcessor from './middleware/excelProcessor';
 
 const storage = multer.memoryStorage();
@@ -63,10 +63,30 @@ app.use(bodyParser.json());
 // funds
 app.get('/funds', authenticate, fundsController.getByQuery);
 app.get('/funds/:id', authenticate, fundsController.getByID);
-app.post('/funds', authenticate, fundsController.post);
-app.patch('/funds/:id', authenticate, fundsController.patch);
-app.delete('/funds', authenticate, fundsController.deleteAll);
-app.delete('/funds/:id', authenticate, fundsController.deleteById);
+app.post(
+  '/funds',
+  authenticate,
+  checkRole(['admin', 'super']),
+  fundsController.post
+);
+app.patch(
+  '/funds/:id',
+  authenticate,
+  checkRole(['admin', 'super']),
+  fundsController.patch
+);
+app.delete(
+  '/funds',
+  authenticate,
+  checkRole(['admin', 'super']),
+  fundsController.deleteAll
+);
+app.delete(
+  '/funds/:id',
+  authenticate,
+  checkRole(['admin', 'super']),
+  fundsController.deleteById
+);
 
 // files
 app.get(
@@ -78,6 +98,7 @@ app.get(
 app.post(
   '/files',
   authenticate,
+  checkRole(['admin', 'super']),
   upload.single('file'),
   excelProcessor.importFile,
   filesController.post
@@ -86,16 +107,31 @@ app.post(
 // statistics
 app.get('/stats', authenticate, statisticsController.getLatest);
 app.get('/stats/history', authenticate, statisticsController.getHistory);
-app.delete('/stats/:id', authenticate, statisticsController.deleteById);
+app.delete(
+  '/stats/:id',
+  authenticate,
+  checkRole(['admin', 'super']),
+  statisticsController.deleteById
+);
 
 // users
 app.get('/users/me', authenticate, usersController.getUser);
-app.get('/users', authenticate, usersController.getAll);
+app.get(
+  '/users',
+  authenticate,
+  checkRole(['admin', 'super']),
+  usersController.getAll
+);
 app.post('/users', usersController.createUser);
 app.post('/users/login', usersController.login);
 app.delete('/users/me/token', authenticate, usersController.logout);
 app.patch('/users/me', authenticate, usersController.patchMe);
-app.patch('/users/:id', authenticate, usersController.patchByUserID);
+app.patch(
+  '/users/:id',
+  authenticate,
+  checkRole(['admin', 'super']),
+  usersController.patchByUserID
+);
 
 // catch all
 app.all('*', (_req, res) => {
