@@ -9,7 +9,6 @@ const getAll = () => {
 
 const getByQuery = (page, limit, query, sort) => {
   const q = makeSearchQuery(query);
-  console.log(q);
   return Fund.paginate(q, { page, limit, sort });
 };
 

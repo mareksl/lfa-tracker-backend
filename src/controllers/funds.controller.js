@@ -46,10 +46,7 @@ const getByQuery = (req, res) => {
       };
       res.send(toSend);
     })
-    .catch(err => {
-      console.log(err);
-      return res.status(500).send(err);
-    });
+    .catch(err => res.status(500).send(err));
 };
 
 const post = (req, res) => {
