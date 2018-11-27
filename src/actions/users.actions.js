@@ -31,16 +31,13 @@ const logout = (user, token) => {
 };
 
 const patch = (id, data) => {
-  return User.findByIdAndUpdate(
-    id,
-    {
-      $set: data
-    },
-    {
-      new: true,
-      runValidators: true
+  return User.findById(id).then(user => {
+    if (!user) {
+      throw new Error('User not found');
     }
-  );
+    user.set(data);
+    return user.save();
+  });
 };
 
 const getAll = () => {
