@@ -15,7 +15,7 @@ const createUser = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  return res.header('x-auth', req.token).send(req.user);
+  return res.header('x-auth', req.token).send({ user: req.user });
 };
 
 const login = (req, res) => {
