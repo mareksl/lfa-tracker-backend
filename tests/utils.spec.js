@@ -1,9 +1,4 @@
-import {
-  filenameDateString,
-  toCamelCase,
-  makeRegexObject,
-  pick
-} from '../src/utils/utils';
+import { filenameDateString, toCamelCase, pick } from '../src/utils/utils';
 
 const regexEqual = (x, y) => {
   return (
@@ -32,25 +27,6 @@ describe('utils', () => {
       const camelCaseString = 'loremIpsum';
 
       expect(toCamelCase(stringToConvert)).toBe(camelCaseString);
-    });
-  });
-
-  describe('makeRegexObject', () => {
-    it('should create object with regex values', () => {
-      const objectToConvert = {
-        a: 'lorem',
-        b: 'ipsum'
-      };
-
-      const regexObject = {
-        a: /lorem/i,
-        b: /ipsum/i
-      };
-
-      const result = makeRegexObject(objectToConvert);
-
-      expect(regexEqual(regexObject.a, result.a)).toBeTruthy();
-      expect(regexEqual(regexObject.b, result.b)).toBeTruthy();
     });
   });
 
