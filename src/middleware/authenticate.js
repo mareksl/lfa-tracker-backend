@@ -17,3 +17,13 @@ export const authenticate = (req, res, next) => {
       return res.status(401).send(err);
     });
 };
+
+export const checkRole = roles => {
+  return (req, res, next) => {
+    const user = req.user;
+    if (roles.includes(user.role)) {
+      return next();
+    }
+    return res.status(401).send();
+  };
+};

@@ -15,7 +15,7 @@ const createUser = (req, res) => {
 };
 
 const getUser = (req, res) => {
-  return res.header('x-auth', req.token).send(req.user);
+  return res.header('x-auth', req.token).send({ user: req.user });
 };
 
 const login = (req, res) => {
@@ -46,8 +46,46 @@ const logout = (req, res) => {
     .catch(err => res.status(400).send(err));
 };
 
-const patch = (req, res) => {
-  const body = pick(req.body, ['password']);
+const getByUserID = (req, res) => {
+  const id = +req.params.id;
+
+  UsersActions.findByUserID(id)
+    .then(user => {
+      if (!user) {
+        return res.status(404).send();
+      }
+      return res.send({ user });
+    })
+    .catch(err => res.status(400).send(err));
+};
+
+const patchByUserID = (req, res) => {
+  const body = pick(req.body, [
+    'password',
+    'firstName',
+    'lastName',
+    'active',
+    'role'
+  ]);
+  if (!req.user) {
+    return res.status(400).send();
+  }
+
+  const id = +req.params.id;
+
+  UsersActions.findByUserID(id)
+    .then(user => UsersActions.patch(user._id, body))
+    .then(user => {
+      if (!user) {
+        return res.status(400).send();
+      }
+      return res.send({ user });
+    })
+    .catch(err => res.status(400).send(err));
+};
+
+const patchMe = (req, res) => {
+  const body = pick(req.body, ['password', 'firstName', 'lastName']);
   if (!req.user) {
     return res.status(400).send();
   }
@@ -59,7 +97,27 @@ const patch = (req, res) => {
       if (!user) {
         return res.status(400).send();
       }
-      return res.send(user);
+      return res.send({ user });
+    })
+    .catch(err => res.status(400).send(err));
+};
+
+const getAll = (req, res) => {
+  UsersActions.getAll()
+    .then(users => res.send({ users }))
+    .catch(err => res.status(500).send(err));
+};
+
+const removeById = (req, res) => {
+  const id = +req.params.id;
+
+  UsersActions.findByUserID(id)
+    .then(user => UsersActions.removeById(user._id))
+    .then(user => {
+      if (!user) {
+        return res.status(404).send();
+      }
+      return res.send({ user });
     })
     .catch(err => res.status(400).send(err));
 };
@@ -69,5 +127,9 @@ export default {
   getUser,
   login,
   logout,
-  patch
+  patchMe,
+  getByUserID,
+  patchByUserID,
+  getAll,
+  removeById
 };
