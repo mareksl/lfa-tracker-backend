@@ -21,20 +21,9 @@ export const toCamelCase = str =>
     })
     .replace(/\s+/g, '');
 
-export const makeSearchQuery = q => {
-  const stringParams = ['fundName', 'fundOwner', 'department', 'awardUniverse'];
-  const numberParams = ['lipperID'];
-  const arrayParams = ['highestRank'];
-
-  return Object.keys(q).reduce((result, key) => {
-    if (stringParams.includes(key)) {
-      result[key] = new RegExp(q[key], 'i');
-    } else if (numberParams.includes(key)) {
-      result[key] = +q[key];
-    } else if (arrayParams.includes(key)) {
-      result[key] = q[key].split(',');
-    }
-
+export const makeRegexObject = obj => {
+  return Object.keys(obj).reduce((result, key) => {
+    result[key] = new RegExp(obj[key], 'i');
     return result;
   }, {});
 };
@@ -42,7 +31,7 @@ export const makeSearchQuery = q => {
 export const pick = (obj, keys) => {
   const ret = {};
   keys.forEach(key => {
-    if (obj[key] !== undefined && obj[key] !== null) {
+    if (obj[key]) {
       ret[key] = obj[key];
     }
   });

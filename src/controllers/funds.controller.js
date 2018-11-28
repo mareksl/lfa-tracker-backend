@@ -22,8 +22,8 @@ const getByQuery = (req, res) => {
     'lipperID',
     'fundOwner',
     'department',
-    'awardUniverse',
-    'highestRank'
+    'universe',
+    'ranks'
   ]);
 
   const page = +req.query.page || 1;
