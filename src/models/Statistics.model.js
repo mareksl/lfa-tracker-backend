@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+import mongoose, { Schema } from 'mongoose';
 import moment from 'moment';
 
 const StatisticsSchema = mongoose.Schema({
@@ -16,16 +16,16 @@ const StatisticsSchema = mongoose.Schema({
     type: Number
   },
   statsByRank: {
-    type: {}
+    type: Schema.Types.Mixed
   },
   statsByDepartment: {
-    type: {}
+    type: Schema.Types.Mixed
   },
   statsByAssignee: {
-    type: {}
+    type: Schema.Types.Mixed
   },
   statsByUniverse: {
-    type: {}
+    type: Schema.Types.Mixed
   }
 });
 
