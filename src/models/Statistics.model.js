@@ -26,6 +26,18 @@ const StatisticsSchema = mongoose.Schema({
   },
   statsByUniverse: {
     type: {}
+  },
+  extendedLGCVerified: {
+    type: Number
+  },
+  performanceVerified: {
+    type: Number
+  },
+  profileDataVerified: {
+    type: Number
+  },
+  timeseriesDataVerified: {
+    type: Number
   }
 });
 
