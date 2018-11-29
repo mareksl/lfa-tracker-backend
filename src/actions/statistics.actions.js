@@ -118,7 +118,7 @@ const calculateStatsByRank = funds => {
     result[fund[property]].timeseriesDataVerified = fund.timeseriesDataVerified
       ? result[fund[property]].timeseriesDataVerified + 1
       : result[fund[property]].timeseriesDataVerified;
-      
+
     return result;
   }, {});
 };
@@ -143,7 +143,8 @@ const calculateStatistics = funds => {
     statsByRank: calculateStatsByRank(funds),
     statsByDepartment: calculateStatsByDepartment(funds),
     statsByAssignee: calculateStatsByAssignee(funds),
-    statsByUniverse: calculateStatsByUniverse(funds)
+    statsByUniverse: calculateStatsByUniverse(funds),
+    ...calculateFlagStatistics(funds)
   };
 };
 
