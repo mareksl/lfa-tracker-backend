@@ -87,7 +87,7 @@ const FundSchema = new mongoose.Schema(
       required: true,
       default: false
     },
-    timeseriesDataVerified: {
+    timeSeriesVerified: {
       type: Boolean,
       required: true,
       default: false

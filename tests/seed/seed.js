@@ -24,7 +24,7 @@ export const seedFunds = [
     extendedLGCVerified: true,
     performanceVerified: true,
     profileDataVerified: true,
-    timeseriesDataVerified: true
+    timeSeriesVerified: true
   },
   {
     lipperID: 60003460,
@@ -56,7 +56,7 @@ export const seedFunds = [
     extendedLGCVerified: false,
     performanceVerified: false,
     profileDataVerified: true,
-    timeseriesDataVerified: true
+    timeSeriesVerified: true
   }
 ];
 

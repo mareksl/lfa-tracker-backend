@@ -69,7 +69,7 @@ describe('/funds', () => {
         extendedLGCVerified: true,
         performanceVerified: true,
         profileDataVerified: true,
-        timeseriesDataVerified: true
+        timeSeriesVerified: true
       };
 
       request(app)

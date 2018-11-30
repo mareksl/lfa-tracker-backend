@@ -36,7 +36,7 @@ const StatisticsSchema = mongoose.Schema({
   profileDataVerified: {
     type: Number
   },
-  timeseriesDataVerified: {
+  timeSeriesVerified: {
     type: Number
   }
 });

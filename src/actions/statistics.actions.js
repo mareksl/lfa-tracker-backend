@@ -4,7 +4,7 @@ const checkFundStatus = fund =>
   fund.extendedLGCVerified &&
   fund.performanceVerified &&
   fund.profileDataVerified &&
-  fund.timeseriesDataVerified;
+  fund.timeSeriesVerified;
 
 const calculateAmountDone = funds => {
   return funds.reduce(
@@ -29,7 +29,7 @@ const calculateFlagStatistics = funds => {
     extendedLGCVerified: checkFlagCount(funds, 'extendedLGCVerified'),
     performanceVerified: checkFlagCount(funds, 'performanceVerified'),
     profileDataVerified: checkFlagCount(funds, 'profileDataVerified'),
-    timeseriesDataVerified: checkFlagCount(funds, 'timeseriesDataVerified')
+    timeSeriesVerified: checkFlagCount(funds, 'timeSeriesVerified')
   };
 };
 
@@ -95,7 +95,7 @@ const calculateStatsByRank = funds => {
         extendedLGCVerified: 0,
         performanceVerified: 0,
         profileDataVerified: 0,
-        timeseriesDataVerified: 0
+        timeSeriesVerified: 0
       };
     }
 
@@ -115,9 +115,9 @@ const calculateStatsByRank = funds => {
     result[fund[property]].profileDataVerified = fund.profileDataVerified
       ? result[fund[property]].profileDataVerified + 1
       : result[fund[property]].profileDataVerified;
-    result[fund[property]].timeseriesDataVerified = fund.timeseriesDataVerified
-      ? result[fund[property]].timeseriesDataVerified + 1
-      : result[fund[property]].timeseriesDataVerified;
+    result[fund[property]].timeSeriesVerified = fund.timeSeriesVerified
+      ? result[fund[property]].timeSeriesVerified + 1
+      : result[fund[property]].timeSeriesVerified;
 
     return result;
   }, {});
