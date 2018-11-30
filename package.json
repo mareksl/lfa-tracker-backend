@@ -52,7 +52,7 @@
     "coverage": "jest --collectCoverageFrom=src/**.js --collectCoverageFrom=!src/index.js --coverage --runInBand --forceExit",
     "clean": "rimraf ./build && mkdir build",
     "build-server": "babel -d ./build ./src -s",
-    "build": "yarn run clean && yarn run build-server",
+    "build": "yarn run clean && yarn run build-server && mkdir build\\logs",
     "start": "node ./build"
   }
 }
