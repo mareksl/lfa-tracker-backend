@@ -29,7 +29,7 @@ router.get(
 );
 
 router.post(
-  '/ ',
+  '/',
   authenticate,
   checkRole(['admin', 'super']),
   upload.single('file'),
