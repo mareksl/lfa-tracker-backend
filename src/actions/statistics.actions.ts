@@ -1,34 +1,44 @@
 import { Statistics } from '../models/Statistics.model';
+import { IFund } from '../models/Fund.model';
+import { hasKey } from '../utils/utils';
+import {
+  IStatisticsByRank,
+  IStatisticsByProperty,
+  IStatisticsData
+} from '../interfaces/statistics';
 
-const checkComplete = fund =>
+const checkComplete = (fund: IFund) =>
   fund.extendedLGCVerified &&
   fund.profileDataVerified &&
   fund.timeSeriesVerified;
 
-const checkCompleteWithPerformance = fund =>
+const checkCompleteWithPerformance = (fund: IFund) =>
   checkComplete(fund) && fund.performanceVerified;
 
-const calculateComplete = funds => {
+const calculateComplete = (funds: IFund[]) => {
   return funds.reduce(
     (total, fund) => (checkComplete(fund) ? ++total : total),
     0
   );
 };
 
-const calculateCompleteWithPerformance = funds => {
+const calculateCompleteWithPerformance = (funds: IFund[]) => {
   return funds.reduce(
     (total, fund) => (checkCompleteWithPerformance(fund) ? ++total : total),
     0
   );
 };
 
-const checkFlagCount = (funds, flag) => {
+const checkFlagCount = (funds: IFund[], flag: string) => {
   return funds.reduce((result, fund) => {
-    return fund[flag] ? ++result : result;
+    if (hasKey(fund, flag)) {
+      return fund[flag] ? ++result : result;
+    }
+    return result;
   }, 0);
 };
 
-const calculateBaseStatistics = funds => {
+const calculateBaseStatistics = (funds: IFund[]) => {
   return {
     count: funds.length,
     extendedLGCVerified: checkFlagCount(funds, 'extendedLGCVerified'),
@@ -40,33 +50,40 @@ const calculateBaseStatistics = funds => {
   };
 };
 
-const groupByProperty = (funds, property) => {
-  return funds.reduce((result, fund) => {
-    if (!(fund[property] in result)) {
-      result[fund[property]] = [];
-    }
-
-    result[fund[property]].push(fund);
-    return result;
-  }, {});
-};
-
-const groupByPropertyArray = (funds, property) => {
-  return funds.reduce((result, fund) => {
-    fund[property].forEach(item => {
-      if (!(item in result)) {
-        result[item] = [];
+const groupByProperty: (
+  funds: IFund[],
+  property: string
+) => { [key: string]: IFund[] } = (funds: IFund[], property: string) => {
+  return funds.reduce((result: { [key: string]: IFund[] }, fund) => {
+    if (hasKey(fund, property)) {
+      if (!(fund[property] in result)) {
+        result[fund[property]] = [];
       }
 
-      result[item].push(fund);
-    });
+      result[fund[property]].push(fund);
+    }
     return result;
   }, {});
 };
 
-const calculateStatsByRank = funds => {
+const groupByPropertyArray = (funds: IFund[], property: string) => {
+  return funds.reduce((result: { [key: string]: IFund[] }, fund) => {
+    if (hasKey(fund, property)) {
+      fund[property].forEach((item: string) => {
+        if (!(item in result)) {
+          result[item] = [];
+        }
+
+        result[item].push(fund);
+      });
+    }
+    return result;
+  }, {});
+};
+
+const calculateStatsByRank = (funds: IFund[]) => {
   const grouped = groupByProperty(funds, 'highestRank');
-  const statsByProperty = {};
+  const statsByProperty: IStatisticsByRank = {};
 
   for (const inner in grouped) {
     const funds = grouped[inner];
@@ -78,8 +95,8 @@ const calculateStatsByRank = funds => {
   return statsByProperty;
 };
 
-const calculateGroupedStats = grouped => {
-  const statsByProperty = {};
+const calculateGroupedStats = (grouped: { [key: string]: IFund[] }) => {
+  const statsByProperty: IStatisticsByProperty = {};
 
   for (const inner in grouped) {
     const funds = grouped[inner];
@@ -95,29 +112,29 @@ const calculateGroupedStats = grouped => {
   return statsByProperty;
 };
 
-const calculateStatsByProperty = (funds, property) => {
+const calculateStatsByProperty = (funds: IFund[], property: string) => {
   const fundsByProperty = groupByProperty(funds, property);
   return calculateGroupedStats(fundsByProperty);
 };
 
-const calculateStatsByPropertyArray = (funds, property) => {
+const calculateStatsByPropertyArray = (funds: IFund[], property: string) => {
   const fundsByProperty = groupByPropertyArray(funds, property);
   return calculateGroupedStats(fundsByProperty);
 };
 
-const calculateStatsByUniverse = funds => {
+const calculateStatsByUniverse = (funds: IFund[]) => {
   return calculateStatsByPropertyArray(funds, 'awardUniverse');
 };
 
-const calculateStatsByDepartment = funds => {
+const calculateStatsByDepartment = (funds: IFund[]) => {
   return calculateStatsByProperty(funds, 'department');
 };
 
-const calculateStatsByFundOwner = funds => {
+const calculateStatsByFundOwner = (funds: IFund[]) => {
   return calculateStatsByProperty(funds, 'fundOwner');
 };
 
-const calculateStatistics = funds => {
+const calculateStatistics = (funds: IFund[]) => {
   return {
     total: calculateBaseStatistics(funds),
     rank123: calculateBaseStatistics(
@@ -142,14 +159,14 @@ const getHistoricalStatistics = () => {
     .lean();
 };
 
-const saveStatistics = (stats, date) => {
-  const statistics = calculateStatistics(stats);
+const saveStatistics = (funds: IFund[], date: Date) => {
+  const statistics: IStatisticsData = calculateStatistics(funds);
   statistics.date = date;
   const statisticsDoc = new Statistics(statistics);
   return statisticsDoc.save();
 };
 
-const removeById = id => {
+const removeById = (id: string) => {
   return Statistics.findByIdAndDelete(id);
 };
 

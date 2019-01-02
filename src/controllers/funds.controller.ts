@@ -1,7 +1,8 @@
 import FundsActions from '../actions/funds.actions';
 import { pick } from '../utils/utils';
+import { Request, Response } from 'express';
 
-const getByID = (req, res) => {
+const getByID = (req: Request, res: Response) => {
   const id = +req.params.id;
   if (!id) {
     return res.status(404).send();
@@ -16,7 +17,7 @@ const getByID = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
-const getByQuery = (req, res) => {
+const getByQuery = (req: Request, res: Response) => {
   const query = pick(req.query, [
     'fundName',
     'lipperID',
@@ -31,7 +32,7 @@ const getByQuery = (req, res) => {
   const limit =
     (+req.query.limit === 0 ? Number.MAX_SAFE_INTEGER : +req.query.limit) || 10;
 
-  const orderBy = req.query.orderBy
+  const orderBy: { [key: string]: number } = req.query.orderBy
     ? { [req.query.orderBy]: +req.query.desc === 1 ? -1 : 1 }
     : { fundName: 1 };
 
@@ -49,7 +50,7 @@ const getByQuery = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
-const post = (req, res) => {
+const post = (req: Request, res: Response) => {
   const data = req.body;
 
   if (Object.keys(data).length === 0) {
@@ -61,7 +62,7 @@ const post = (req, res) => {
     .catch(err => res.status(400).send(err));
 };
 
-const patch = (req, res) => {
+const patch = (req: Request, res: Response) => {
   const id = +req.params.id;
   if (!id) {
     return res.status(404).send();
@@ -79,13 +80,13 @@ const patch = (req, res) => {
     .catch(err => res.status(500).send(err));
 };
 
-const deleteAll = (req, res) => {
+const deleteAll = (_req: Request, res: Response) => {
   FundsActions.removeAll()
     .then(response => res.send(response))
     .catch(err => res.status(500).send(err));
 };
 
-const deleteById = (req, res) => {
+const deleteById = (req: Request, res: Response) => {
   const id = +req.params.id;
   if (!id) {
     return res.status(404).send();
