@@ -2,8 +2,9 @@ import xlsx from 'xlsx';
 import FundsActions from '../actions/funds.actions';
 import StatisticsActions from '../actions/statistics.actions';
 import { toCamelCase } from '../utils/utils';
+import { Request, Response, NextFunction } from 'express';
 
-const exportFile = (_req, res, next) => {
+const exportFile = (_req: Request, res: Response, next: NextFunction) => {
   const wb = xlsx.utils.book_new();
   FundsActions.getAllToExport()
     .then(funds => {
@@ -23,7 +24,7 @@ const exportFile = (_req, res, next) => {
     });
 };
 
-const importFile = (req, res, next) => {
+const importFile = (req: Request, res: Response, next: NextFunction) => {
   const file = req.file;
 
   if (!file) {
@@ -34,8 +35,8 @@ const importFile = (req, res, next) => {
   const ws = wb.Sheets[wb.SheetNames[0]];
   const rawData = xlsx.utils.sheet_to_json(ws);
 
-  const data = rawData.map(item => {
-    return Object.keys(item).reduce((result, key) => {
+  const data = rawData.map((item: { [key: string]: any }) => {
+    return Object.keys(item).reduce((result: { [key: string]: any }, key) => {
       const camelCaseKey = toCamelCase(key);
       result[camelCaseKey] = item[key];
       return result;

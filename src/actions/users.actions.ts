@@ -1,14 +1,15 @@
-import { User } from '../models/User.model';
+import { User, IUser } from '../models/User.model';
+import { IUserData } from '../interfaces/user';
 
-const authenticate = token => {
+const authenticate = (token: string) => {
   return User.findByToken(token);
 };
 
-const findByUserID = id => {
+const findByUserID = (id: number) => {
   return User.findOne({ userID: id });
 };
 
-const create = data => {
+const create = (data: IUserData) => {
   const user = new User(data);
 
   return user
@@ -17,7 +18,7 @@ const create = data => {
     .then(token => ({ user, token }));
 };
 
-const login = data => {
+const login = (data: { userID: number; password: string }) => {
   return User.findByCredentials(data.userID, data.password).then(user => {
     if (!user.active) {
       throw new Error('User inactive');
@@ -26,11 +27,11 @@ const login = data => {
   });
 };
 
-const logout = (user, token) => {
+const logout = (user: IUser, token: string) => {
   return user.removeToken(token);
 };
 
-const patch = (id, data) => {
+const patch = (id: string, data: IUserData) => {
   return User.findById(id).then(user => {
     if (!user) {
       throw new Error('User not found');
@@ -44,8 +45,8 @@ const getAll = () => {
   return User.find({});
 };
 
-const removeById = id => {
-  return User.findByIdAndDelete(id);
+const removeById = (id: string) => {
+  return User.findByIdAndDelete(id).exec();
 };
 
 export default {
