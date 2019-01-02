@@ -6,38 +6,38 @@ const StatisticsSchema = mongoose.Schema({
     type: Date,
     default: Date.now
   },
-  totalCount: {
-    type: Number
+
+  total: {
+    count: Number,
+    extendedLGCVerified: Number,
+    performanceVerified: Number,
+    profileDataVerified: Number,
+    timeSeriesVerified: Number,
+    complete: Number,
+    completeWithPerformance: Number
   },
-  doneCount: {
-    type: Number
+
+  rank123: {
+    count: Number,
+    extendedLGCVerified: Number,
+    performanceVerified: Number,
+    profileDataVerified: Number,
+    timeSeriesVerified: Number,
+    complete: Number,
+    completeWithPerformance: Number
   },
-  percentageDone: {
-    type: Number
-  },
-  statsByRank: {
+
+  byRank: {
     type: {}
   },
-  statsByDepartment: {
+  byUniverse: {
     type: {}
   },
-  statsByAssignee: {
+  byDepartment: {
     type: {}
   },
-  statsByUniverse: {
+  byFundOwner: {
     type: {}
-  },
-  extendedLGCVerified: {
-    type: Number
-  },
-  performanceVerified: {
-    type: Number
-  },
-  profileDataVerified: {
-    type: Number
-  },
-  timeSeriesVerified: {
-    type: Number
   }
 });
 

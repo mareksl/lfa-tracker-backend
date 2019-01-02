@@ -1,21 +1,25 @@
 import { Statistics } from '../models/Statistics.model';
 
-const checkFundStatus = fund =>
+const checkComplete = fund =>
   fund.extendedLGCVerified &&
-  fund.performanceVerified &&
   fund.profileDataVerified &&
   fund.timeSeriesVerified;
 
-const calculateAmountDone = funds => {
+const checkCompleteWithPerformance = fund =>
+  checkComplete(fund) && fund.performanceVerified;
+
+const calculateComplete = funds => {
   return funds.reduce(
-    (total, fund) => (checkFundStatus(fund) ? ++total : total),
+    (total, fund) => (checkComplete(fund) ? ++total : total),
     0
   );
 };
 
-const calculatePercentageDone = funds => {
-  const amountDone = calculateAmountDone(funds);
-  return amountDone / funds.length;
+const calculateCompleteWithPerformance = funds => {
+  return funds.reduce(
+    (total, fund) => (checkCompleteWithPerformance(fund) ? ++total : total),
+    0
+  );
 };
 
 const checkFlagCount = (funds, flag) => {
@@ -24,12 +28,15 @@ const checkFlagCount = (funds, flag) => {
   }, 0);
 };
 
-const calculateFlagStatistics = funds => {
+const calculateBaseStatistics = funds => {
   return {
+    count: funds.length,
     extendedLGCVerified: checkFlagCount(funds, 'extendedLGCVerified'),
     performanceVerified: checkFlagCount(funds, 'performanceVerified'),
     profileDataVerified: checkFlagCount(funds, 'profileDataVerified'),
-    timeSeriesVerified: checkFlagCount(funds, 'timeSeriesVerified')
+    timeSeriesVerified: checkFlagCount(funds, 'timeSeriesVerified'),
+    complete: calculateComplete(funds),
+    completeWithPerformance: calculateCompleteWithPerformance(funds)
   };
 };
 
@@ -57,17 +64,31 @@ const groupByPropertyArray = (funds, property) => {
   }, {});
 };
 
+const calculateStatsByRank = funds => {
+  const grouped = groupByProperty(funds, 'highestRank');
+  const statsByProperty = {};
+
+  for (const inner in grouped) {
+    const funds = grouped[inner];
+    statsByProperty[inner] = {
+      ...calculateBaseStatistics(funds)
+    };
+  }
+
+  return statsByProperty;
+};
+
 const calculateGroupedStats = grouped => {
   const statsByProperty = {};
 
   for (const inner in grouped) {
     const funds = grouped[inner];
     statsByProperty[inner] = {
-      statsByRank: calculateStatsByRank(funds),
-      totalCount: funds.length,
-      doneCount: calculateAmountDone(funds),
-      percentageDone: calculatePercentageDone(funds),
-      ...calculateFlagStatistics(funds)
+      total: calculateBaseStatistics(funds),
+      rank123: calculateBaseStatistics(
+        funds.filter(fund => fund.highestRank <= 3)
+      ),
+      byRank: calculateStatsByRank(funds)
     };
   }
 
@@ -84,67 +105,28 @@ const calculateStatsByPropertyArray = (funds, property) => {
   return calculateGroupedStats(fundsByProperty);
 };
 
-const calculateStatsByRank = funds => {
-  const property = 'highestRank';
-  return funds.reduce((result, fund) => {
-    if (!(fund[property] in result)) {
-      result[fund[property]] = {
-        totalCount: 0,
-        doneCount: 0,
-        percentageDone: 0,
-        extendedLGCVerified: 0,
-        performanceVerified: 0,
-        profileDataVerified: 0,
-        timeSeriesVerified: 0
-      };
-    }
-
-    result[fund[property]].totalCount += 1;
-    result[fund[property]].doneCount = checkFundStatus(fund)
-      ? result[fund[property]].doneCount + 1
-      : result[fund[property]].doneCount;
-    result[fund[property]].percentageDone =
-      result[fund[property]].doneCount / result[fund[property]].totalCount;
-
-    result[fund[property]].extendedLGCVerified = fund.extendedLGCVerified
-      ? result[fund[property]].extendedLGCVerified + 1
-      : result[fund[property]].extendedLGCVerified;
-    result[fund[property]].performanceVerified = fund.performanceVerified
-      ? result[fund[property]].performanceVerified + 1
-      : result[fund[property]].performanceVerified;
-    result[fund[property]].profileDataVerified = fund.profileDataVerified
-      ? result[fund[property]].profileDataVerified + 1
-      : result[fund[property]].profileDataVerified;
-    result[fund[property]].timeSeriesVerified = fund.timeSeriesVerified
-      ? result[fund[property]].timeSeriesVerified + 1
-      : result[fund[property]].timeSeriesVerified;
-
-    return result;
-  }, {});
+const calculateStatsByUniverse = funds => {
+  return calculateStatsByPropertyArray(funds, 'awardUniverse');
 };
 
 const calculateStatsByDepartment = funds => {
   return calculateStatsByProperty(funds, 'department');
 };
 
-const calculateStatsByAssignee = funds => {
+const calculateStatsByFundOwner = funds => {
   return calculateStatsByProperty(funds, 'fundOwner');
-};
-
-const calculateStatsByUniverse = funds => {
-  return calculateStatsByPropertyArray(funds, 'awardUniverse');
 };
 
 const calculateStatistics = funds => {
   return {
-    totalCount: funds.length,
-    doneCount: calculateAmountDone(funds),
-    percentageDone: calculatePercentageDone(funds),
-    statsByRank: calculateStatsByRank(funds),
-    statsByDepartment: calculateStatsByDepartment(funds),
-    statsByAssignee: calculateStatsByAssignee(funds),
-    statsByUniverse: calculateStatsByUniverse(funds),
-    ...calculateFlagStatistics(funds)
+    total: calculateBaseStatistics(funds),
+    rank123: calculateBaseStatistics(
+      funds.filter(fund => fund.highestRank <= 3)
+    ),
+    byRank: calculateStatsByRank(funds),
+    byUniverse: calculateStatsByUniverse(funds),
+    byDepartment: calculateStatsByDepartment(funds),
+    byFundOwner: calculateStatsByFundOwner(funds)
   };
 };
 
@@ -171,7 +153,7 @@ const removeById = id => {
   return Statistics.findByIdAndDelete(id);
 };
 
-const removeAll = id => {
+const removeAll = () => {
   return Statistics.deleteMany({});
 };
 
