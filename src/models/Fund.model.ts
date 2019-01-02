@@ -1,11 +1,15 @@
-import mongoose from 'mongoose';
+import { Schema, Model, model, PaginateModel } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
-import upsertMany from '@meanie/mongoose-upsert-many';
 import mongoosePaginate from 'mongoose-paginate';
+import { IFundDocument } from '../interfaces/fund';
 
-const toArray = v => (typeof v === 'string' ? v.split(',') : v);
+export interface IFund extends IFundDocument {}
+export interface IFundModel extends Model<IFund>, PaginateModel<IFund> {}
 
-const FundSchema = new mongoose.Schema(
+const toArray = (v: string | string[]) =>
+  typeof v === 'string' ? v.split(',') : v;
+
+const FundSchema: Schema = new Schema(
   {
     lipperID: {
       type: Number,
@@ -98,11 +102,10 @@ const FundSchema = new mongoose.Schema(
   }
 );
 
-mongoose.Schema.Types.Boolean.convertToFalse.add('No');
-mongoose.Schema.Types.Boolean.convertToTrue.add('Yes');
+(<any>Schema.Types.Boolean).convertToFalse.add('No');
+(<any>Schema.Types.Boolean).convertToTrue.add('Yes');
 
 FundSchema.plugin(uniqueValidator);
-FundSchema.plugin(upsertMany);
 FundSchema.plugin(mongoosePaginate);
 
-export const Fund = mongoose.model('Fund', FundSchema);
+export const Fund: IFundModel = model<IFund, IFundModel>('Fund', FundSchema);

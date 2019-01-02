@@ -1,7 +1,11 @@
-import mongoose from 'mongoose';
 import moment from 'moment';
+import { model, Model, Schema } from 'mongoose';
+import { IStatisticsDocument } from '../interfaces/statistics';
 
-const StatisticsSchema = mongoose.Schema({
+export interface IStatistics extends IStatisticsDocument {}
+export interface IStatisticsModel extends Model<IStatistics> {}
+
+const StatisticsSchema: Schema = new Schema({
   date: {
     type: Date,
     default: Date.now
@@ -42,7 +46,7 @@ const StatisticsSchema = mongoose.Schema({
 });
 
 StatisticsSchema.pre('save', function(next) {
-  const doc = this;
+  const doc = <IStatisticsDocument>this;
   const start = moment(doc.date).startOf('day');
   const end = moment(doc.date).endOf('day');
 
@@ -56,4 +60,7 @@ StatisticsSchema.pre('save', function(next) {
   });
 });
 
-export const Statistics = mongoose.model('Statistics', StatisticsSchema);
+export const Statistics: IStatisticsModel = model<
+  IStatistics,
+  IStatisticsModel
+>('Statistics', StatisticsSchema);

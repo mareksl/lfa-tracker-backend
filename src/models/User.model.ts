@@ -1,10 +1,27 @@
-import mongoose from 'mongoose';
+import { Schema, Query, Model, DocumentQuery, model } from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { pick } from '../utils/utils';
+import { IUserDocument } from '../interfaces/user';
 
-const UserSchema = new mongoose.Schema({
+export interface IUser extends IUserDocument {
+  generateAuthToken(): Promise<string>;
+
+  removeToken(token: string): Query<any>;
+
+  toJSON(): Pick<
+    any,
+    '_id' | 'userID' | 'role' | 'firstName' | 'lastName' | 'active'
+  >;
+}
+export interface IUserModel extends Model<IUser> {
+  findByToken(token: string): DocumentQuery<IUser | null, IUser, {}>;
+
+  findByCredentials(userID: number, password: string): Promise<IUser>;
+}
+
+const UserSchema: Schema = new Schema({
   userID: {
     type: Number,
     required: true,
@@ -49,7 +66,7 @@ const UserSchema = new mongoose.Schema({
 });
 
 UserSchema.methods.generateAuthToken = function() {
-  const user = this;
+  const user = <IUserDocument>this;
 
   const access = 'auth';
 
@@ -60,7 +77,7 @@ UserSchema.methods.generateAuthToken = function() {
         access,
         exp: Math.floor(Date.now() / 1000) + 60 * 60
       },
-      process.env.JWT_SECRET
+      <string>process.env.JWT_SECRET
     )
     .toString();
 
@@ -68,8 +85,8 @@ UserSchema.methods.generateAuthToken = function() {
   return user.save().then(() => token);
 };
 
-UserSchema.methods.removeToken = function(token) {
-  const user = this;
+UserSchema.methods.removeToken = function(token: string) {
+  const user = <IUserDocument>this;
 
   return user.update({
     $pull: {
@@ -78,27 +95,30 @@ UserSchema.methods.removeToken = function(token) {
   });
 };
 
-UserSchema.statics.findByToken = function(token) {
+UserSchema.statics.findByToken = function(token: string) {
   const User = this;
 
   let decoded;
   try {
-    decoded = jwt.verify(token, process.env.JWT_SECRET);
+    decoded = jwt.verify(token, <string>process.env.JWT_SECRET);
   } catch (e) {
     return Promise.reject(new Error('JWT verificaiton failed'));
   }
 
   return User.findOne({
-    _id: decoded._id,
+    _id: (<any>decoded)._id,
     'tokens.token': token,
     'tokens.access': 'auth'
   });
 };
 
-UserSchema.statics.findByCredentials = function(userID, password) {
+UserSchema.statics.findByCredentials = function(
+  userID: number,
+  password: string
+): Promise<IUser> {
   const User = this;
 
-  return User.findOne({ userID }).then(user => {
+  return User.findOne({ userID }).then((user: IUser | null) => {
     if (!user) {
       return Promise.reject(new Error('User not found'));
     }
@@ -116,7 +136,7 @@ UserSchema.statics.findByCredentials = function(userID, password) {
 };
 
 UserSchema.methods.toJSON = function() {
-  const user = this;
+  const user = <IUserDocument>this;
   const userObject = user.toObject();
 
   return pick(userObject, [
@@ -130,7 +150,7 @@ UserSchema.methods.toJSON = function() {
 };
 
 UserSchema.pre('save', function(next) {
-  const user = this;
+  const user = <IUserDocument>this;
 
   if (user.isModified('password')) {
     bcrypt.genSalt(10, (_err, salt) => {
@@ -146,4 +166,4 @@ UserSchema.pre('save', function(next) {
 
 UserSchema.plugin(uniqueValidator);
 
-export const User = mongoose.model('User', UserSchema);
+export const User: IUserModel = model<IUser, IUserModel>('User', UserSchema);

@@ -3,8 +3,10 @@ import StatisticsActions from '../actions/statistics.actions';
 import { filenameDateString } from '../utils/utils';
 import moment from 'moment';
 import { Fund } from '../models/Fund.model';
+import { Request, Response } from 'express';
+import { IFundData } from '../interfaces/fund';
 
-const getFile = (_req, res) => {
+const getFile = (_req: Request, res: Response) => {
   const file = res.locals.file;
   const date = new Date();
   const filename = `LFA_Tracker_Export_${filenameDateString(date)}`;
@@ -14,14 +16,16 @@ const getFile = (_req, res) => {
   res.send(file);
 };
 
-const post = (req, res) => {
+const post = (req: Request, res: Response) => {
   const data = res.locals.data;
 
-  const date = req.body.date ? moment(req.body.date) : moment();
+  const date = req.body.date
+    ? moment(req.body.date).toDate()
+    : moment().toDate();
   const overwriteFunds = req.body.overwriteFunds === 'true';
 
   if (!overwriteFunds) {
-    const funds = data.map(fund => new Fund(fund));
+    const funds = data.map((fund: IFundData) => new Fund(fund));
     return StatisticsActions.saveStatistics(funds, date)
       .then(statistics => {
         return res.status(201).send({ statistics });

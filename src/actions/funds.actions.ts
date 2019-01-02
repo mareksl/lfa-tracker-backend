@@ -1,5 +1,6 @@
-import { Fund } from '../models/Fund.model';
-import { makeSearchQuery } from '../utils/utils';
+import { Fund, IFund } from '../models/Fund.model';
+import { makeSearchQuery, hasKey } from '../utils/utils';
+import { IFundData } from '../interfaces/fund';
 
 const getAll = () => {
   return Fund.find({})
@@ -7,7 +8,20 @@ const getAll = () => {
     .exec();
 };
 
-const getByQuery = (page, limit, query, sort) => {
+const getByQuery = (
+  page: number,
+  limit: number,
+  query: Pick<
+    any,
+    | 'fundName'
+    | 'lipperID'
+    | 'fundOwner'
+    | 'department'
+    | 'awardUniverse'
+    | 'highestRank'
+  >,
+  sort: { [sort: string]: number } | string
+) => {
   const q = makeSearchQuery(query);
   return Fund.paginate(q, { page, limit, sort });
 };
@@ -20,11 +34,11 @@ const getAllToExport = () => {
   return Fund.find({})
     .lean()
     .exec()
-    .then(funds =>
+    .then((funds: IFund[]) =>
       funds.map(fund => {
         delete fund._id;
         for (let key in fund) {
-          if (fund.hasOwnProperty(key)) {
+          if (hasKey(fund, key)) {
             if (fund[key] instanceof Array) {
               fund[key] = fund[key].join(',');
             }
@@ -35,16 +49,16 @@ const getAllToExport = () => {
     );
 };
 
-const add = data => {
+const add = (data: IFundData) => {
   const fund = new Fund(data);
   return fund.save();
 };
 
-const findById = id => {
+const findById = (id: number) => {
   return Fund.findOne({ lipperID: id });
 };
 
-const modify = (id, data) => {
+const modify = (id: number, data: IFundData) => {
   return Fund.findOneAndUpdate(
     { lipperID: id },
     {
@@ -58,11 +72,11 @@ const removeAll = () => {
   return Fund.deleteMany({});
 };
 
-const removeById = id => {
+const removeById = (id: number) => {
   return Fund.findOneAndDelete({ lipperID: id });
 };
 
-const addMany = funds => {
+const addMany = (funds: IFundData[]) => {
   return removeAll().then(_response => {
     return Fund.insertMany(funds);
   });

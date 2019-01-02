@@ -4,7 +4,7 @@ import chalk from 'chalk';
 mongoose.Promise = global.Promise;
 
 export const connect = () => {
-  const dbURL = process.env.MONGODB_URI;
+  const dbURL = <string>process.env.MONGODB_URI;
   mongoose.connect(dbURL);
   const db = mongoose.connection;
 
@@ -13,13 +13,13 @@ export const connect = () => {
       err.message &&
       err.message.match(/failed to connect to server .* on first connect/)
     ) {
-      console.log(chalk.red(new Date()), err.toString());
+      console.log(chalk.red(new Date().toISOString()), err.toString());
       setTimeout(function() {
         console.log('Retrying first connect...');
         db.openUri(dbURL).catch(() => {});
       }, 5 * 1000);
     } else {
-      console.error(chalk.red(new Date()), err.toString());
+      console.error(chalk.red(new Date().toISOString()), err.toString());
     }
   });
 
